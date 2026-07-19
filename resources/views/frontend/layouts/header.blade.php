@@ -66,7 +66,7 @@
     .nt-logo img {
         max-height: 48px;
         width: auto;
-        border-radius: 12px;
+        border-radius: 1px;
         display: block;
     }
 

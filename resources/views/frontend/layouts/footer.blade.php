@@ -7,29 +7,29 @@
 .modern-footer {background:var(--nt-secondary, #2B303A); color:#e5e7eb; padding:80px 0 0;}
 .footer-grid {display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:50px; margin-bottom:50px;}
 .footer-col h3 {font-size:22px; font-weight:700; margin:0 0 24px; color:#fff; position:relative; padding-bottom:12px;}
-.footer-col h3:after {content:''; position:absolute; left:0; bottom:0; width:60px; height:3px; background:var(--nt-accent, #FFD166); border-radius:3px;}
+.footer-col h3:after {content:''; position:absolute; left:0; bottom:0; width:60px; height:3px; background:var(--nt-accent, #C72027); border-radius:3px;}
 .footer-logo-section img {height:70px; margin-bottom:18px; filter:brightness(1.1); background:#fff; padding:10px; border-radius:12px; display:inline-block;}
 .footer-logo-section p {font-size:15px; line-height:1.65; color:#d1d5db; margin:0;}
 .footer-services-list {list-style:none; margin:0; padding:0;}
 .footer-services-list li {margin-bottom:12px;}
 .footer-services-list li a {color:#d1d5db; text-decoration:none; font-size:15px; transition:.3s; display:inline-flex; align-items:center;}
-.footer-services-list li a:before {content:'▸'; margin-right:8px; color:var(--nt-accent, #FFD166); font-weight:700;}
-.footer-services-list li a:hover {color:var(--nt-accent, #FFD166); transform:translateX(4px);}
+.footer-services-list li a:before {content:'▸'; margin-right:8px; color:var(--nt-accent, #C72027); font-weight:700;}
+.footer-services-list li a:hover {color:var(--nt-accent, #C72027); transform:translateX(4px);}
 .footer-contact-item {display:flex; align-items:flex-start; gap:14px; margin-bottom:18px;}
-.footer-contact-item i {color:var(--nt-accent, #FFD166); font-size:20px; margin-top:2px;}
+.footer-contact-item i {color:var(--nt-accent, #C72027); font-size:20px; margin-top:2px;}
 .footer-contact-item .contact-text {font-size:15px; line-height:1.6; color:#d1d5db;}
 .footer-contact-item a {color:#d1d5db; text-decoration:none; transition:.3s;}
-.footer-contact-item a:hover {color:var(--nt-accent, #FFD166);}
+.footer-contact-item a:hover {color:var(--nt-accent, #C72027);}
 .footer-map-container {border-radius:12px; overflow:hidden; box-shadow:0 8px 24px -8px rgba(0,0,0,.4); margin-top:20px; border:1px solid rgba(255,255,255,.12);}
 .footer-map-container iframe {width:100%; height:240px; display:block; border:none; filter:grayscale(.15) contrast(1.05);}
 .footer-social-section {text-align:center; padding:30px 0; border-top:1px solid rgba(255,255,255,.1);}
 .footer-social-label {font-size:16px; font-weight:600; color:#fff; margin-bottom:18px;}
 .footer-social-links {display:flex; justify-content:center; gap:14px; flex-wrap:wrap;}
-.footer-social-links a {display:inline-flex; align-items:center; justify-content:center; width:46px; height:46px; border-radius:50%; background:var(--nt-primary, #F1F3F5); color:var(--nt-secondary, #2B303A); font-size:20px; border:2px solid transparent; transition:.35s; box-shadow:0 4px 12px rgba(0,0,0,.2);}
-.footer-social-links a:hover {background:var(--nt-accent, #FFD166); color:var(--nt-dark, #1A1C20); border-color:#fff; transform:translateY(-4px); box-shadow:0 8px 20px rgba(255,209,102,.5);}
+.footer-social-links a {display:inline-flex; align-items:center; justify-content:center; width:46px; height:46px; border-radius:50%; background:var(--nt-primary, #F1F3F5); color:var(--nt-secondary, #2B303A); font-size:20px; border:2px solid transparent; transition:.35s; box-shadow:0 4px 12px rgba(0,0,0,.2); text-decoration:none;}
+.footer-social-links a:hover {background:var(--nt-accent, #C72027); color:var(--nt-dark, #1A1C20); border-color:#fff; transform:translateY(-4px); box-shadow:0 8px 20px rgba(255,209,102,.5);}
 .footer-bottom {background:var(--nt-secondary-20, #20242C); padding:24px 0; text-align:center; border-top:1px solid rgba(255,255,255,.1);}
 .footer-bottom p {margin:0; font-size:15px; color:#d1d5db;}
-.footer-bottom a {color:var(--nt-accent, #FFD166); text-decoration:none; font-weight:600; transition:.3s;}
+.footer-bottom a {color:var(--nt-accent, #C72027); text-decoration:none; font-weight:600; transition:.3s;}
 .footer-bottom a:hover {color:#ffe0a3; text-decoration:underline;}
 @media (max-width: 991px){.footer-grid {gap:40px;}}
 @media (max-width: 575px){.modern-footer {padding:60px 0 0;} .footer-grid {gap:35px;} .footer-col h3 {font-size:20px;}}

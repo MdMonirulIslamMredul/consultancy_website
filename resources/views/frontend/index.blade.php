@@ -176,8 +176,7 @@ $sliders = DB::table('sliders')
 
     /* Accent words via inline <span> in the DB title */
     .slider-content h1 .accent {
-        color: #00c9d4;
-        /* vivid teal – matches reference */
+        color: #C72027;
     }
 
     /* ── Sub-text ── */
@@ -203,23 +202,22 @@ $sliders = DB::table('sliders')
         align-items: center;
         gap: 10px;
         padding: 13px 30px;
-        background: #00bfc9;
-        /* teal pill */
+        background: #C72027;
         color: #ffffff;
         font-size: 0.95rem;
         font-weight: 700;
         border-radius: 50px;
         text-decoration: none;
         letter-spacing: 0.02em;
-        box-shadow: 0 6px 22px rgba(0, 191, 201, 0.38);
+        box-shadow: 0 6px 22px rgba(199, 32, 39, 0.42);
         transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
         border: none;
     }
 
     .hero-cta-btn:hover {
-        background: #009aa3;
+        background: #A61B21;
         transform: translateY(-2px);
-        box-shadow: 0 10px 28px rgba(0, 191, 201, 0.5);
+        box-shadow: 0 10px 28px rgba(199, 32, 39, 0.55);
         color: #ffffff;
         text-decoration: none;
     }
@@ -398,38 +396,40 @@ $sliders = DB::table('sliders')
 </script>
 
 <!-- About Section -->
-<div class="about-section" style="background-color: #f4f3f0; padding: 80px 0;">
+<div class="about-section" style="background-color: #F8F9FB; padding: 80px 0;">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right" data-aos-duration="1000">
-                <img src="{{ asset('setting/homepage/about.png') }}" alt="About SHEC" style="width: 100%; max-height: 500px; border-radius: 20px; object-fit: cover; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <img src="{{ asset('setting/homepage/about.png') }}" alt="About IEC" style="width: 100%; max-height: 500px; border-radius: 20px; object-fit: cover; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
             </div>
             <div class="col-lg-6 pl-lg-5" data-aos="fade-left" data-aos-duration="1000">
-                <h2 style="font-size: 40px; font-weight: 700; margin-bottom: 25px; color: #165b65; line-height: 1.3;">
-                    ESTABLISHING <span style="color: #e63946;">YOUR</span> <br>
-                    <span style="color: #e63946;">PATHWAY</span> TO SUCCESS
+                <span style="display:inline-block;background:#FDECEA;color:#C72027;font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:5px 16px;border-radius:50px;margin-bottom:14px;">Who We Are</span>
+                <h2 style="font-size: 40px; font-weight: 800; margin-bottom: 25px; color: #1A1A2E; line-height: 1.2; letter-spacing:-.5px;">
+                    ESTABLISHING <span style="color: #C72027;">YOUR</span> <br>
+                    <span style="color: #C72027;">PATHWAY</span> TO SUCCESS
                 </h2>
-                <p style="font-size: 16px; color: #555; line-height: 1.7; margin-bottom: 40px;">
-                    Shaheda Higher Education Consultancy (SHEC), founded in 2006 and based in Dhaka, Bangladesh, is a leading firm dedicated to guiding students through the university application process. Partnered with top institutions across Australia, the USA, Canada, the UK, and more, SHEC offers personalized and efficient support for undergraduate and graduate studies.
+                <p style="font-size: 16px; color: #4B5563; line-height: 1.75; margin-bottom: 40px;">
+                    Imperial Education &amp; Career (IEC), based in Dhaka, Bangladesh, is a leading firm dedicated to guiding students through the university application process. Partnered with top institutions across Australia, the USA, Canada, the UK, and more, IEC offers personalized and efficient support for undergraduate and graduate studies.
                 </p>
 
                 <div class="row mb-5 text-center text-md-left">
                     <div class="col-4">
-                        <h3 style="font-size: 36px; font-weight: 700; color: #165b65; margin-bottom: 5px;">9+</h3>
-                        <p style="font-size: 13px; color: #666; margin: 0; text-transform: uppercase; letter-spacing: 1px;">Countries</p>
+                        <h3 style="font-size: 36px; font-weight: 800; color: #C72027; margin-bottom: 5px;">9+</h3>
+                        <p style="font-size: 13px; color: #9CA3AF; margin: 0; text-transform: uppercase; letter-spacing: 1px;">Countries</p>
                     </div>
                     <div class="col-4">
-                        <h3 style="font-size: 36px; font-weight: 700; color: #165b65; margin-bottom: 5px;">10,000+</h3>
-                        <p style="font-size: 13px; color: #666; margin: 0; text-transform: uppercase; letter-spacing: 1px;">Students</p>
+                        <h3 style="font-size: 36px; font-weight: 800; color: #C72027; margin-bottom: 5px;">10,000+</h3>
+                        <p style="font-size: 13px; color: #9CA3AF; margin: 0; text-transform: uppercase; letter-spacing: 1px;">Students</p>
                     </div>
                     <div class="col-4">
-                        <h3 style="font-size: 36px; font-weight: 700; color: #165b65; margin-bottom: 5px;">26+</h3>
-                        <p style="font-size: 13px; color: #666; margin: 0; text-transform: uppercase; letter-spacing: 1px;">Year Experience</p>
+                        <h3 style="font-size: 36px; font-weight: 800; color: #C72027; margin-bottom: 5px;">26+</h3>
+                        <p style="font-size: 13px; color: #9CA3AF; margin: 0; text-transform: uppercase; letter-spacing: 1px;">Year Experience</p>
                     </div>
                 </div>
 
-                <a href="#" style="display: inline-block; padding: 12px 35px; border: 1px solid #165b65; border-radius: 50px; color: #165b65; font-size: 14px; font-weight: 600; text-decoration: none; text-transform: uppercase; transition: all 0.3s ease; letter-spacing: 1px;" onmouseover="this.style.backgroundColor='#165b65'; this.style.color='#fff';" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#165b65';">
+                <a href="{{ route('about.index') }}" style="display: inline-flex; align-items: center; gap:8px; padding: 13px 32px; background:#C72027; border-radius: 50px; color: #fff; font-size: 14px; font-weight: 700; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; box-shadow:0 6px 20px rgba(199,32,39,.32); transition: all 0.3s ease;" onmouseover="this.style.background='#A61B21'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#C72027'; this.style.transform='none';">
                     About Us
+                    <i class="ri-arrow-right-line"></i>
                 </a>
             </div>
         </div>
@@ -476,11 +476,12 @@ $sliders = DB::table('sliders')
     }
 </style>
 
-<div class="destination-section" style="background-color: #f4f3f0; padding: 80px 0;">
+<div class="destination-section" style="background-color: #ffffff; padding: 80px 0;">
     <div class="container">
         <div class="section-title text-center mb-5">
-            <h2 style="font-size: 36px; font-weight: 700; color: #165b65; text-transform: uppercase; margin-bottom: 30px;">
-                SELECT <span style="color: #e63946;">YOUR DESTINATION</span>
+            <span style="display:inline-block;background:#FDECEA;color:#C72027;font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:5px 16px;border-radius:50px;margin-bottom:12px;">Study Abroad</span>
+            <h2 style="font-size: 38px; font-weight: 800; color: #1A1A2E; text-transform: uppercase; margin-bottom: 10px; letter-spacing:-.5px;">
+                SELECT <span style="color: #C72027;">YOUR DESTINATION</span>
             </h2>
         </div>
 
@@ -552,7 +553,7 @@ $sliders = DB::table('sliders')
 <!-- Our Services Section -->
 <style>
     .svc-section {
-        background: linear-gradient(135deg, #0d5560 0%, #145f6a 50%, #0d5560 100%);
+        background: linear-gradient(135deg, #1A1A2E 0%, #C72027 100%);
         padding: 70px 0 0 0;
         overflow: hidden;
     }
@@ -580,7 +581,7 @@ $sliders = DB::table('sliders')
         padding: 12px 35px;
         background-color: #ffffff;
         border-radius: 50px;
-        color: #0d5560;
+        color: #C72027;
         font-size: 12px;
         font-weight: 700;
         text-decoration: none;
@@ -591,11 +592,11 @@ $sliders = DB::table('sliders')
     }
 
     .svc-view-btn:hover {
-        background-color: #e8f4f5;
-        color: #0d5560;
+        background-color: #FDECEA;
+        color: #A61B21;
         text-decoration: none;
         transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 6px 20px rgba(199,32,39, 0.2);
     }
 
     .svc-card {
@@ -727,21 +728,21 @@ $sliders = DB::table('sliders')
 <!-- Easy Steps to Apply Section -->
 <style>
     .steps-section {
-        background-color: #f0efec;
+        background-color: #F8F9FB;
         padding: 80px 0 90px;
     }
 
     .steps-section .section-heading {
         font-size: 26px;
-        font-weight: 700;
-        color: #165b65;
+        font-weight: 800;
+        color: #1A1A2E;
         text-transform: uppercase;
         letter-spacing: 2px;
         margin-bottom: 55px;
     }
 
     .steps-section .section-heading span {
-        color: #e63946;
+        color: #C72027;
     }
 
     .step-card {
@@ -955,21 +956,21 @@ $sliders = DB::table('sliders')
 <!-- Stories of Satisfaction Section -->
 <style>
     .testimonial-section {
-        background-color: #f0efec;
+        background-color: #ffffff;
         padding: 80px 0 90px;
     }
 
     .testimonial-section .section-heading {
         font-size: 26px;
-        font-weight: 700;
-        color: #165b65;
+        font-weight: 800;
+        color: #1A1A2E;
         text-transform: uppercase;
         letter-spacing: 2px;
         margin-bottom: 55px;
     }
 
     .testimonial-section .section-heading span {
-        color: #e63946;
+        color: #C72027;
     }
 
     .mosaic-wrap {
@@ -985,7 +986,7 @@ $sliders = DB::table('sliders')
         left: 0;
         width: 85%;
         height: 88%;
-        background-color: #b8a96a;
+        background-color: #C72027;
         border-radius: 8px;
         z-index: 0;
     }
@@ -1055,7 +1056,7 @@ $sliders = DB::table('sliders')
     }
 
     .testi-nav-btn:hover {
-        color: #165b65;
+        color: #C72027;
     }
 
     .testi-item {
@@ -1089,10 +1090,17 @@ $sliders = DB::table('sliders')
                 <div class="mosaic-wrap">
                     <div class="mosaic-backing"></div>
                     <div class="mosaic-grid">
-                        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=80&w=400" alt="Student">
-                        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=400" alt="Student">
-                        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&q=80&w=400" alt="Student">
-                        <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&q=80&w=400" alt="Student">
+                        @foreach($testmonies->take(4) as $testimonial)
+                            @if($testimonial->photo)
+                                <img src="{{ asset('/setting/testmony/' . $testimonial->photo) }}" alt="{{ $testimonial->reviewer ?? 'Student' }}">
+                            @else
+                                <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&q=80&w=400" alt="Student">
+                            @endif
+                        @endforeach
+                        
+                        @for($i = $testmonies->count(); $i < 4; $i++)
+                            <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=400" alt="Student Placeholder">
+                        @endfor
                     </div>
                 </div>
             </div>
@@ -1102,28 +1110,16 @@ $sliders = DB::table('sliders')
                 <div class="testi-content">
                     <div class="testi-quote-icon">"&nbsp;"</div>
 
-                    <div class="testi-item active">
-                        <p class="testi-text">Alhamdulillah! Can You Imagine Getting Subclass 500 Visa In A Day?! Yeah I Got That, Alhamdulillah For Everything! SHEC Had An Immense Role In This Journey, From Nirob Bhai Guiding Us In The Financial Department With Business Documents To Anika Apu Helping Out With The Visa Questions And SOP. Not To Mention Shaheda Ma'am Gave Us A Clear Understanding Of What Path Are We On And Supported Us To The End. Seriously, I Can't Thank Them Enough! I Would Recommend Them Anyday And Everyday Not Just For Their Work But Also Because How Amazing They Are As A Person!</p>
-                        <p class="testi-name">Sadin Towhid</p>
+                    @foreach($testmonies as $index => $testimonial)
+                    <div class="testi-item {{ $index === 0 ? 'active' : '' }}">
+                        <p class="testi-text">{{ $testimonial->review ?? 'No review provided.' }}</p>
+                        <p class="testi-name">{{ $testimonial->reviewer ?? 'Anonymous' }}</p>
                     </div>
+                    @endforeach
 
-                    <div class="testi-item">
-                        <p class="testi-text">SHEC Made My Dream Of Studying In Canada Come True! The Entire Process Was Seamless, From The Initial Consultation To Receiving My Offer Letter. The Team Was Incredibly Knowledgeable And Always Available To Answer My Questions. I Got My Study Permit Approved Within 3 Weeks. I Highly Recommend SHEC To Anyone Looking To Study Abroad!</p>
-                        <p class="testi-name">Rania Hossain</p>
-                    </div>
-
-                    <div class="testi-item">
-                        <p class="testi-text">I Had An Amazing Experience With SHEC. They Guided Me Every Step Of The Way For My UK Student Visa. The Consultants Were Professional, Responsive And Genuinely Cared About My Success. Within 6 Months Of My First Meeting, I Was On A Flight To London. Thank You So Much SHEC Team For Making This Happen!</p>
-                        <p class="testi-name">Tahmid Chowdhury</p>
-                    </div>
-
-                    <div class="testi-item">
-                        <p class="testi-text">Getting Into An Australian University Seemed Impossible For Me, But SHEC Turned The Impossible Into Reality. They Helped Me With My SOP, Gathered All The Required Documents And Even Coached Me Before My Visa Interview. I Am Now Studying At Deakin University Melbourne. Forever Grateful To The Entire SHEC Family!</p>
-                        <p class="testi-name">Nusrat Jahan</p>
-                    </div>
-
-                    <button class="testi-nav-btn" onclick="testiNext()">
-                        NEXT <i class="fa-solid fa-chevron-right"></i>
+                    <button class="iec-btn" onclick="testiNext()">
+                        NEXT
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                     </button>
                 </div>
             </div>
@@ -1916,7 +1912,10 @@ $sliders = DB::table('sliders')
                     <button type="button" class="svc-dot {{ $i===0 ? 'active' : '' }}" data-index="{{ $i }}" aria-label="Slide {{ $i+1 }}"></button>
                     @endfor
             </div>
-            <a href="/service" class="btn btn-outline-secondary px-4 py-2" style="border-radius:30px; font-weight:600;">See All Services</a>
+            <a href="/service" class="iec-btn" style="margin-top: 15px;">
+                See All Services
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
             <div class="small mt-2" style="color:#555;"> </div>
         </div>
     </div>
@@ -2147,7 +2146,32 @@ $sliders = DB::table('sliders')
 
 
 
-<<div id="rs-faq" class="faq-area ptb-100">
+<style>
+    #rs-faq .accordion-button,
+    #rs-faq .accordion-button:not(.collapsed) {
+        color: #1A1A2E !important;
+        background-color: #ffffff !important;
+        font-weight: 600;
+        font-size: 15px;
+        box-shadow: none;
+    }
+    #rs-faq .accordion-button::after {
+        filter: none !important;
+    }
+    #rs-faq .accordion-body {
+        color: #4B5563 !important;
+        font-size: 15px;
+        line-height: 1.7;
+    }
+    #rs-faq .accordion-item {
+        border: 1.5px solid rgba(0,0,0,.09);
+        border-radius: 10px !important;
+        margin-bottom: 12px;
+        overflow: hidden;
+    }
+</style>
+
+<div id="rs-faq" class="faq-area ptb-100">
     <div class="container">
         <div class="row">
 
@@ -2234,20 +2258,62 @@ $sliders = DB::table('sliders')
                 }
 
                 .single-news-card:hover {
-                    border-color: var(--nt-accent);
-                    box-shadow: 0 14px 34px -10px rgba(0, 0, 0, .25);
+                    border-color: #C72027;
+                    box-shadow: 0 14px 34px -10px rgba(199,32,39,.25);
                     transform: translateY(-6px);
                     background: #ffffff;
                 }
 
                 .single-news-card .read-more-btn {
-                    display: inline-block;
-                    margin-top: 8px;
-                    font-weight: 600;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 7px;
+                    margin-top: 12px;
+                    padding: 9px 22px;
+                    background: linear-gradient(135deg, #6B7280 0%, #9CA3AF 100%);
+                    color: #fff !important;
+                    font-size: 13px;
+                    font-weight: 700;
+                    border-radius: 50px;
+                    text-decoration: none !important;
+                    letter-spacing: .3px;
+                    transition: all .35s ease;
+                    box-shadow: 0 4px 16px rgba(0, 0, 0, .18);
+                    position: relative;
+                    overflow: hidden;
+                }
+
+                .single-news-card .read-more-btn::before {
+                    content: '';
+                    position: absolute;
+                    top: 0; left: -75%;
+                    width: 50%; height: 100%;
+                    background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.28) 50%, transparent 100%);
+                    transform: skewX(-20deg);
+                    transition: left .55s ease;
+                    pointer-events: none;
+                }
+
+                .single-news-card .read-more-btn:hover::before {
+                    left: 130%;
+                }
+
+                .single-news-card .read-more-btn:hover {
+                    background: linear-gradient(135deg, #C72027 0%, #e03037 100%);
+                    transform: translateY(-2px);
+                    box-shadow:
+                        0 8px 24px rgba(199, 32, 39, .5),
+                        0 0 0 5px rgba(199, 32, 39, .1);
+                    color: #fff !important;
                 }
 
                 .single-news-card .read-more-btn i {
                     margin-left: 6px;
+                    transition: transform .3s ease;
+                }
+
+                .single-news-card .read-more-btn:hover i {
+                    transform: translateX(4px);
                 }
 
                 /* Dark theme */
@@ -2290,9 +2356,10 @@ $sliders = DB::table('sliders')
                 </div>
                 @endforeach
             </div>
-            <div class="more-latest-news text-center">
-                <a href="/blogs" class="read-more-btn active" style="text-decoration: none; color: var(--nt-secondary);">
-                    More on Blogs<i class="flaticon-next"></i>
+            <div class="more-latest-news text-center" style="margin-top:40px;">
+                <a href="/blogs" class="iec-btn">
+                    More on Blogs
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                 </a>
             </div>
         </div>
@@ -2300,5 +2367,80 @@ $sliders = DB::table('sliders')
 
 
 
+
+<style>
+    /* ── IEC Brand Button ── */
+    .iec-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        padding: 13px 32px;
+        background: linear-gradient(135deg, #6B7280 0%, #9CA3AF 100%);
+        color: #ffffff !important;
+        font-size: 14px;
+        font-weight: 700;
+        border-radius: 50px;
+        text-decoration: none !important;
+        letter-spacing: .4px;
+        position: relative;
+        overflow: hidden;
+        transition: all .35s ease;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, .18);
+        border: none;
+        cursor: pointer;
+    }
+    /* shimmer sweep */
+    .iec-btn::before {
+        content: '';
+        position: absolute;
+        top: 0; left: -75%;
+        width: 50%; height: 100%;
+        background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.28) 50%, transparent 100%);
+        transform: skewX(-20deg);
+        transition: left .55s ease;
+        pointer-events: none;
+    }
+    .iec-btn:hover::before { left: 130%; }
+    .iec-btn:hover {
+        background: linear-gradient(135deg, #C72027 0%, #e03037 100%);
+        transform: translateY(-3px);
+        box-shadow:
+            0 10px 30px rgba(199, 32, 39, .55),
+            0 0 0 6px rgba(199, 32, 39, .12);
+        color: #ffffff !important;
+        text-decoration: none !important;
+    }
+    .iec-btn:active {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 18px rgba(199,32,39,.4);
+    }
+    .iec-btn svg { transition: transform .3s ease; }
+    .iec-btn:hover svg { transform: translateX(4px); }
+
+    /* Outline variant */
+    .iec-btn-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        padding: 12px 30px;
+        background: transparent;
+        color: #6B7280 !important;
+        font-size: 14px;
+        font-weight: 700;
+        border-radius: 50px;
+        text-decoration: none !important;
+        letter-spacing: .4px;
+        border: 2px solid #9CA3AF;
+        transition: all .3s ease;
+        box-shadow: 0 0 0 0 rgba(199,32,39,0);
+    }
+    .iec-btn-outline:hover {
+        background: #C72027;
+        color: #ffffff !important;
+        border-color: #C72027;
+        box-shadow: 0 6px 22px rgba(199,32,39,.38), 0 0 0 5px rgba(199,32,39,.12);
+        transform: translateY(-2px);
+    }
+</style>
 
     @endsection
