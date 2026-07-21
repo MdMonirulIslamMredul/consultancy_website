@@ -94,7 +94,8 @@ class HomeController
         $banner = Service::where('is_active', 1)->latest()->first();
         $services = Service::where('is_active', 1)->get();
         $areas = ServicArea::where('is_active', 1)->get();
-        return view('frontend.content.servicedetails', compact('services','banner','areas'));
+        $universities = \App\Models\University::take(8)->get();
+        return view('frontend.content.servicedetails', compact('services','banner','areas', 'universities'));
     }
 
     public function noticedetails($id)
@@ -236,7 +237,8 @@ class HomeController
     public function destinationindex()
     {
         $destinations = Project::where('is_active', 1)->get();
-        return view('frontend.content.destination', compact('destinations'));
+        $universities = \App\Models\University::take(8)->get();
+        return view('frontend.content.destination', compact('destinations', 'universities'));
     }
 
     public function testimonialindex()

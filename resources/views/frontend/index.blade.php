@@ -486,66 +486,52 @@ $sliders = DB::table('sliders')
         </div>
 
         <div class="row">
-            <!-- Australia -->
-            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-duration="1000">
-                <div class="destination-card">
-                    <img src="https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?auto=format&fit=crop&q=80&w=800" alt="Australia" class="bg-img">
-                    <div class="destination-badge">
-                        <img src="https://flagcdn.com/w40/au.png" alt="AU" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
-                        <span style="color: #fff; font-weight: 700; letter-spacing: 1px; font-size: 14px;">AUSTRALIA</span>
+            @php
+            $countryCodes = [
+                'australia' => 'au',
+                'uk' => 'gb',
+                'united kingdom' => 'gb',
+                'usa' => 'us',
+                'united states' => 'us',
+                'canada' => 'ca',
+                'new zealand' => 'nz',
+                'malaysia' => 'my',
+                'germany' => 'de',
+                'sweden' => 'se',
+                'denmark' => 'dk',
+                'finland' => 'fi',
+                'netherlands' => 'nl',
+                'ireland' => 'ie',
+                'france' => 'fr',
+            ];
+            @endphp
+            @foreach($projects as $index => $project)
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="{{ ($index % 3) * 100 }}">
+                <a href="/study_destination/{{ $project->id }}" style="text-decoration: none;">
+                    <div class="destination-card">
+                        @if($project->image)
+                        <img src="{{ asset('/setting/banner/' . $project->image) }}" alt="{{ $project->title }}" class="bg-img">
+                        @else
+                        <img src="https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?auto=format&fit=crop&q=80&w=800" alt="{{ $project->title }}" class="bg-img">
+                        @endif
+                        <div class="destination-badge">
+                            @php
+                                $cname = strtolower(trim($project->title));
+                                $ccode = $countryCodes[$cname] ?? null;
+                            @endphp
+                            @if($ccode)
+                            <img src="https://flagcdn.com/w40/{{ $ccode }}.png" alt="{{ $ccode }}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                            @else
+                            <span style="display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; background:#fff; border-radius:50%; color:#C72027; font-size:12px;">
+                                <i class="fa-solid fa-globe"></i>
+                            </span>
+                            @endif
+                            <span style="color: #fff; font-weight: 700; letter-spacing: 1px; font-size: 14px; text-transform: uppercase;">{{ $project->title }}</span>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
-            <!-- UK -->
-            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
-                <div class="destination-card">
-                    <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&q=80&w=800" alt="UK" class="bg-img">
-                    <div class="destination-badge">
-                        <img src="https://flagcdn.com/w40/gb.png" alt="UK" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
-                        <span style="color: #fff; font-weight: 700; letter-spacing: 1px; font-size: 14px;">UK</span>
-                    </div>
-                </div>
-            </div>
-            <!-- USA -->
-            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-                <div class="destination-card">
-                    <img src="https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&q=80&w=800" alt="USA" class="bg-img">
-                    <div class="destination-badge">
-                        <img src="https://flagcdn.com/w40/us.png" alt="US" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
-                        <span style="color: #fff; font-weight: 700; letter-spacing: 1px; font-size: 14px;">USA</span>
-                    </div>
-                </div>
-            </div>
-            <!-- Canada -->
-            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-duration="1000">
-                <div class="destination-card">
-                    <img src="https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&q=80&w=800" alt="Canada" class="bg-img">
-                    <div class="destination-badge">
-                        <img src="https://flagcdn.com/w40/ca.png" alt="CA" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
-                        <span style="color: #fff; font-weight: 700; letter-spacing: 1px; font-size: 14px;">CANADA</span>
-                    </div>
-                </div>
-            </div>
-            <!-- New Zealand -->
-            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="100">
-                <div class="destination-card">
-                    <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&q=80&w=800" alt="New Zealand" class="bg-img">
-                    <div class="destination-badge">
-                        <img src="https://flagcdn.com/w40/nz.png" alt="NZ" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
-                        <span style="color: #fff; font-weight: 700; letter-spacing: 1px; font-size: 14px;">NEW ZEALAND</span>
-                    </div>
-                </div>
-            </div>
-            <!-- Malaysia -->
-            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
-                <div class="destination-card">
-                    <img src="https://images.unsplash.com/photo-1596422846543-75c6ff1976f4?auto=format&fit=crop&q=80&w=800" alt="Malaysia" class="bg-img">
-                    <div class="destination-badge">
-                        <img src="https://flagcdn.com/w40/my.png" alt="MY" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
-                        <span style="color: #fff; font-weight: 700; letter-spacing: 1px; font-size: 14px;">MALAYSIA</span>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 </div>
@@ -2215,7 +2201,7 @@ $sliders = DB::table('sliders')
                 <div class="faq-img text-center p-4 shadow-lg rounded-4"
                     style="background:#ffffff; min-height: 500px; display:flex; flex-direction:column; justify-content:center; align-items:center;">
 
-                    <img src="{{ asset('setting/brand/Gemini_Generated_Image_13ws8713ws8713ws.png') }}"
+                    <img src="{{ asset('setting/brand/faq_illustration_imperial.png') }}"
                         alt="FAQ Image"
                         class="w-100 h-100"
                         style="object-fit: cover; border-radius:12px;">
