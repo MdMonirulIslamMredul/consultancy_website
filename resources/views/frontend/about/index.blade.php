@@ -3,259 +3,544 @@
 @section('title', __('About Us'))
 
 <title>{{ app_name() }} | @yield('title')</title>
+
 <style>
-    /* === ANIMATION KEYFRAMES === */
-    @keyframes fadeInUp {
-        0% { opacity: 0; transform: translateY(30px); }
-        100% { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes slideInLeft {
-        0% { opacity: 0; transform: translateX(-50px); }
-        100% { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes slideInRight {
-        0% { opacity: 0; transform: translateX(50px); }
-        100% { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes zoomIn {
-        0% { opacity: 0; transform: scale(0.8); }
-        100% { opacity: 1; transform: scale(1); }
-    }
-    @keyframes flipIn {
-        0% { opacity: 0; transform: rotateY(90deg); }
-        100% { opacity: 1; transform: rotateY(0); }
-    }
-    @keyframes rotateIn {
-        0% { opacity: 0; transform: rotate(-10deg) scale(0.9); }
-        100% { opacity: 1; transform: rotate(0) scale(1); }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    :root {
+        --brand:      #C72027;
+        --brand-dark: #A61B21;
+        --brand-light:#FDECEA;
+        --text-dark:  #1A1A2E;
+        --text-mid:   #4B5563;
+        --text-light: #9CA3AF;
+        --bg-light:   #F8F9FB;
+        --white:      #FFFFFF;
+        --border:     rgba(0,0,0,.07);
     }
 
-    /* === BASE STYLES FOR HIDDEN STATE === */
-    .fade-up, .slide-left, .slide-right, .zoom, .flip, .rotate, .banner-text {
-        opacity: 0;
+    .ab-wrap * { font-family: 'Inter', sans-serif; box-sizing: border-box; }
+
+    /* ── Hero ── */
+    .ab-hero {
+        position: relative;
+        height: 460px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: var(--brand);
+    }
+    .ab-hero-bg {
+        position: absolute; inset: 0;
+        background-size: cover;
+        background-position: center;
+        filter: brightness(.45) saturate(.85);
+        transition: transform 8s ease;
+    }
+    .ab-hero:hover .ab-hero-bg { transform: scale(1.04); }
+    .ab-hero::after {
+        content: '';
+        position: absolute; inset: 0;
+        background: linear-gradient(135deg, rgba(199, 32, 40, 0.19) 0%, rgba(26, 26, 46, .78) 100%);
+    }
+    .ab-hero-ring {
+        position: absolute;
+        border-radius: 50%;
+        border: 1px solid rgba(255,255,255,.07);
+        pointer-events: none;
+        z-index: 1;
+    }
+    .ab-ring-1 { width: 600px; height: 600px; top: -250px; right: -150px; }
+    .ab-ring-2 { width: 360px; height: 360px; bottom: -160px; left: 40px; }
+
+    .ab-hero-inner {
+        position: relative; z-index: 2;
+        text-align: center;
+        color: #fff;
+        padding: 0 24px;
+    }
+    .ab-hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: rgba(255,255,255,.15);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255,255,255,.28);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        padding: 7px 20px;
+        border-radius: 50px;
+        margin-bottom: 18px;
+    }
+    .ab-hero h1 {
+        font-size: clamp(36px, 5vw, 60px);
+        font-weight: 800;
+        margin: 0 0 14px;
+        letter-spacing: -.5px;
+        text-shadow: 0 4px 24px rgba(0,0,0,.3);
+        color: #fff;
+    }
+    .ab-hero p {
+        font-size: 17px;
+        color: #ffffff;
+        max-width: 540px;
+        margin: 0 auto;
+        line-height: 1.65;
+        text-shadow: 0 2px 8px rgba(0,0,0,.4);
     }
 
-    /* === TRIGGERED STATE === */
-    .in-view.fade-up { animation: fadeInUp 1s ease forwards; }
-    .in-view.slide-left { animation: slideInLeft 1s ease forwards; }
-    .in-view.slide-right { animation: slideInRight 1s ease forwards; }
-    .in-view.zoom { animation: zoomIn 1s ease forwards; }
-    .in-view.flip { animation: flipIn 1s ease forwards; }
-    .in-view.rotate { animation: rotateIn 1s ease forwards; }
-    .in-view.banner-text { animation: fadeInUp 1.2s ease forwards; }
+    /* ── Body ── */
+    .ab-body { background: var(--bg-light); }
+    .ab-container { max-width: 1200px; margin: 0 auto; padding: 0 30px; }
 
-    /* === CARD HOVER EFFECT === */
-    .card-animated {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    /* ── Section spacing ── */
+    .ab-section { padding: 90px 0; }
+    .ab-section-alt { padding: 90px 0; background: var(--white); }
+
+    .ab-section-tag {
+        display: inline-block;
+        background: var(--brand-light);
+        color: var(--brand);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: .8px;
+        text-transform: uppercase;
+        padding: 5px 16px;
+        border-radius: 50px;
+        margin-bottom: 12px;
     }
-    .card-animated:hover {
+
+    /* ── About Intro: Two-column ── */
+    .ab-intro-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+    }
+    .ab-intro-img-wrap {
+        position: relative;
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 24px 60px rgba(0,0,0,.13);
+    }
+    .ab-intro-img-wrap::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(199,32,39,.1) 0%, transparent 60%);
+        z-index: 1;
+    }
+    .ab-intro-img-wrap img {
+        width: 100%;
+        height: 480px;
+        object-fit: cover;
+        display: block;
+        transition: transform .6s ease;
+    }
+    .ab-intro-img-wrap:hover img { transform: scale(1.04); }
+
+    .ab-intro-content h2 {
+        font-size: clamp(28px, 3.5vw, 40px);
+        font-weight: 800;
+        color: var(--text-dark);
+        margin: 0 0 20px;
+        letter-spacing: -.4px;
+        line-height: 1.2;
+    }
+    .ab-intro-content p {
+        font-size: 16.5px;
+        color: var(--text-mid);
+        line-height: 1.8;
+        margin: 0;
+        text-align: justify;
+    }
+
+    /* ── Why Choose Us ── */
+    .ab-why-content {
+        background: var(--white);
+        border-radius: 20px;
+        padding: 44px 48px;
+        border: 1.5px solid var(--border);
+        box-shadow: 0 8px 36px rgba(0,0,0,.07);
+        font-size: 16.5px;
+        color: var(--text-mid);
+        line-height: 1.8;
+    }
+    .ab-why-content h2 {
+        font-size: clamp(26px, 3vw, 38px);
+        font-weight: 800;
+        color: var(--text-dark);
+        margin: 0 0 20px;
+        letter-spacing: -.3px;
+    }
+
+    /* ── Features row ── */
+    .ab-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        gap: 28px;
+        margin-top: 0;
+    }
+    .ab-feature-card {
+        background: var(--white);
+        border-radius: 18px;
+        padding: 32px 24px;
+        text-align: center;
+        border: 1.5px solid var(--border);
+        box-shadow: 0 4px 20px rgba(0,0,0,.06);
+        transition: all .35s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    .ab-feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 3px;
+        background: var(--brand);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform .35s ease;
+    }
+    .ab-feature-card:hover {
         transform: translateY(-8px);
-        box-shadow: 0 25px 40px rgba(0,0,0,0.15);
+        box-shadow: 0 20px 50px rgba(0,0,0,.11);
+        border-color: rgba(199,32,39,.15);
+    }
+    .ab-feature-card:hover::before { transform: scaleX(1); }
+
+    .ab-feature-icon {
+        width: 72px; height: 72px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--border);
+        margin: 0 auto 18px;
+        display: block;
+    }
+    .ab-feature-title {
+        font-size: 16px;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin: 0 0 10px;
+    }
+    .ab-feature-text {
+        font-size: 14px;
+        color: var(--text-mid);
+        line-height: 1.65;
+        margin: 0;
     }
 
-    /* === BUTTON HOVER === */
-    .btn-animated {
-        transition: background-color 0.3s ease, transform 0.2s ease;
+    /* ── Mission / Vision cards ── */
+    .ab-mv-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
     }
-    .btn-animated:hover {
-        background-color: #08306b !important;
-        transform: scale(1.05);
+    .ab-mv-card {
+        background: var(--white);
+        border-radius: 20px;
+        padding: 40px 36px;
+        border: 1.5px solid var(--border);
+        box-shadow: 0 8px 32px rgba(0,0,0,.07);
+        text-align: center;
+        transition: all .35s ease;
+        position: relative;
+        overflow: hidden;
+    }
+    .ab-mv-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        height: 4px;
+        border-radius: 0 0 20px 20px;
+    }
+    .ab-mv-card.mission::after { background: var(--brand); }
+    .ab-mv-card.vision::after  { background: #2e7d32; }
+
+    .ab-mv-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 24px 56px rgba(0,0,0,.12);
+    }
+    .ab-mv-emoji {
+        font-size: 48px;
+        display: block;
+        margin-bottom: 18px;
+    }
+    .ab-mv-card h3 {
+        font-size: 24px;
+        font-weight: 800;
+        margin: 0 0 16px;
+        letter-spacing: -.2px;
+    }
+    .ab-mv-card.mission h3 { color: var(--brand); }
+    .ab-mv-card.vision h3  { color: #2e7d32; }
+    .ab-mv-card p {
+        font-size: 16px;
+        color: var(--text-mid);
+        line-height: 1.75;
+        margin: 0;
+        text-align: justify;
+    }
+
+    /* ── Document cards (License / Portfolio) ── */
+    .ab-doc-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+    }
+    .ab-doc-card {
+        background: var(--white);
+        border-radius: 20px;
+        padding: 40px 36px;
+        border: 1.5px solid var(--border);
+        box-shadow: 0 8px 32px rgba(0,0,0,.07);
+        text-align: center;
+        transition: all .35s ease;
+        position: relative;
+    }
+    .ab-doc-card::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 4px;
+        border-radius: 20px 20px 0 0;
+        background: var(--brand);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform .4s ease;
+    }
+    .ab-doc-card:hover::before { transform: scaleX(1); }
+    .ab-doc-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 24px 56px rgba(0,0,0,.12);
+        border-color: rgba(199,32,39,.15);
+    }
+    .ab-doc-emoji { font-size: 48px; display: block; margin-bottom: 18px; }
+    .ab-doc-card h3 {
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin: 0 0 12px;
+        letter-spacing: -.2px;
+    }
+    .ab-doc-card p {
+        font-size: 15px;
+        color: var(--text-mid);
+        line-height: 1.65;
+        margin: 0 0 24px;
+    }
+    .ab-doc-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 26px;
+        background: linear-gradient(135deg, #6B7280 0%, #9CA3AF 100%);
+        color: #fff !important;
+        font-size: 14px;
+        font-weight: 700;
+        border-radius: 50px;
+        text-decoration: none !important;
+        transition: all .35s ease;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, .18);
+        letter-spacing: .3px;
+        position: relative;
+        overflow: hidden;
+    }
+    .ab-doc-btn::before {
+        content: '';
+        position: absolute;
+        top: 0; left: -75%;
+        width: 50%; height: 100%;
+        background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.28) 50%, transparent 100%);
+        transform: skewX(-20deg);
+        transition: left .55s ease;
+        pointer-events: none;
+    }
+    .ab-doc-btn:hover::before {
+        left: 130%;
+    }
+    .ab-doc-btn:hover {
+        background: linear-gradient(135deg, #C72027 0%, #e03037 100%);
+        transform: translateY(-2px);
+        box-shadow:
+            0 8px 24px rgba(199, 32, 39, .5),
+            0 0 0 5px rgba(199, 32, 39, .1);
+        color: #fff !important;
+    }
+
+    /* ── Section heading helpers ── */
+    .ab-sh { margin-bottom: 48px; }
+    .ab-sh h2 {
+        font-size: clamp(28px, 3.5vw, 42px);
+        font-weight: 800;
+        color: var(--text-dark);
+        margin: 0 0 10px;
+        letter-spacing: -.4px;
+    }
+    .ab-sh p {
+        font-size: 16px;
+        color: var(--text-mid);
+        margin: 0;
+        max-width: 620px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 991px) {
+        .ab-intro-grid { grid-template-columns: 1fr; gap: 40px; }
+        .ab-intro-img-wrap img { height: 340px; }
+        .ab-mv-grid, .ab-doc-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+        .ab-hero { height: 360px; }
+        .ab-section, .ab-section-alt { padding: 60px 0; }
+        .ab-why-content { padding: 28px 24px; }
+        .ab-features { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 420px) {
+        .ab-features { grid-template-columns: 1fr; }
     }
 </style>
 
-<div class="main-content">
+<div class="ab-wrap">
 
-    <!-- Banner Area -->
-    <div class="banner-area pb-100">
-        <div class="container-fluid">
-            <div class="hero-slider owl-carousel owl-theme" data-slider-id="1">
-                <div class="slider-item" style="background-image: url('{{ asset('/setting/about/' . $about->banner_img) }}')">
-                    <div class="slider-content">
-                        <h2 style="
-                            font-size: 60px;
-                            font-weight: 900;
-                            color: #ffffff;
-                            text-transform: uppercase;
-                            letter-spacing: 3px;
-                            text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
-                        ">
-                            About Us
-                        </h2>
-                    </div>
+    {{-- ── Hero ── --}}
+    <div class="ab-hero">
+        <div class="ab-hero-bg" style="background-image: url('{{ asset('/setting/about/' . $about->banner_img) }}')"></div>
+        <div class="ab-hero-ring ab-ring-1"></div>
+        <div class="ab-hero-ring ab-ring-2"></div>
+        <div class="ab-hero-inner" data-aos="fade-up" data-aos-duration="800">
+            <div class="ab-hero-badge">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+                Imperial Education & Career
+            </div>
+            <h1>About Us</h1>
+            <p>Dedicated to guiding students toward their global education and career aspirations</p>
+        </div>
+    </div>
+
+    {{-- ── About Intro ── --}}
+    <div class="ab-section">
+        <div class="ab-container">
+            <div class="ab-intro-grid">
+                <div class="ab-intro-img-wrap" data-aos="fade-right" data-aos-duration="800">
+                    <img src="{{ asset('/setting/about/' . $about->about_image) }}" alt="About Us">
+                </div>
+                <div class="ab-intro-content" data-aos="fade-left" data-aos-duration="800">
+                    <span class="ab-section-tag">Who We Are</span>
+                    <h2>{{ app_name() }}</h2>
+                    <p>{{ $about->short_description }}</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- About Section -->
-    <div class="rs-about gray-color mt-10 pt-220 pb-120 md-pt-80 md-pb-80" style="margin-top:100px;margin-bottom:100px;">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6 md-mb-30 slide-left" style="animation-delay: 0.2s;">
-                    <div class="rs-animation-shape">
-                        <div class="images">
-                            <img src="{{ asset('/setting/about/' . $about->about_image) }}" alt="">
-                        </div>
-                        <div class="middle-image2">
-                            <img class="dance3" src="assets/images/effect-1.png" alt="">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 slide-right" style="animation-delay: 0.4s;">
-                    <div class="contact-wrap">
-                        <div class="sec-title mb-30">
-                            <h1>About Us</h1>
-                        </div>
-                        <div style="
-                            background: #fff;
-                            padding: 40px 35px;
-                            border-radius: 18px;
-                            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-                            max-width: 900px;
-                            margin: 40px auto;
-                            font-size: 18px;
-                            line-height: 1.7;
-                            color: #444;
-                            text-align: justify;
-                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                            width: 100%;
-                        ">
-                            {{ $about->short_description }}
-                        </div>
-                    </div>
-                </div>
+    {{-- ── Why Choose Us ── --}}
+    <div class="ab-section-alt">
+        <div class="ab-container">
+            <div class="ab-why-content" data-aos="fade-up" data-aos-duration="800">
+                <span class="ab-section-tag">Why Choose Us</span>
+                <h2>Our Commitment to You</h2>
+                <div>{!! $about->description !!}</div>
             </div>
-
-            <!-- Why Choose Us -->
-            <div class="row align-items-center">
-                <div class="col-lg-12 pl-60 md-pl-15 zoom" style="animation-delay: 0.6s; padding-left: 15px; padding-right: 15px;">
-                    <h2>Why Choose Us</h2>
-                    <div style="
-                        background: #fff;
-                        padding: 40px 35px;
-                        border-radius: 18px;
-                        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-                        max-width: 1400px;
-                        margin: 40px auto;
-                        font-size: 18px;
-                        line-height: 1.7;
-                        color: #444;
-                        text-align: justify;
-                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                        width: 100%;
-                    ">
-                        {!! $about->description !!}
-                    </div>
-                </div>
-            </div>
-
-
-
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 23px; padding: 50px 20px; max-width: 1200px; margin: auto;">
-
-    <!-- Feature 1 -->
-    <div style="flex: 1 1 calc(25% - 20px); text-align: center; min-width: 220px;">
-        <img src="{{ asset('setting/brand/hybrid.png') }}" alt="Quick & Reliable" style="width: 80px; height: auto; margin-bottom: 30px;margin-top: 10px;">
-        <h3 style="font-size: 18px; font-weight: bold; margin-bottom: 10px;"> Reliable</h3>
-        <h3 style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">  <p style="font-size: 14px; color: #555; text-align: justify; text-justify: inter-word; hyphens: auto; line-height: 1.6; margin: 0 10px;">Our service is fully customer-centric and focused on bringing the best dazzle and shine on the face and smile of satisfaction on your face.</p>
-    </div>
-
-
-    <!-- Feature 2 -->
-    <div style="flex: 1 1 calc(25% - 20px); text-align: center; min-width: 220px;">
-        <img src="{{ asset('setting/brand/best_price.jpg') }}" alt="Affordable Price" style="width: 80px; height: auto; margin-bottom: 15px;">
-        <h3 style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">Affordable Price</h3>
-       <h3 style="font-size: 18px; font-weight: bold; margin-bottom: 10px;"><p style="font-size: 14px; color: #555; text-align: justify; text-justify: inter-word; hyphens: auto; line-height: 1.6; margin: 0 10px;">Affordability and quality are always on top of our agenda with customers convenience given top priority.</p>
-    </div>
-
-    <!-- Feature 3 -->
-    <div style="flex: 1 1 calc(25% - 20px); text-align: center; min-width: 220px;">
-        <img src="{{ asset('setting/brand/quality.png') }}" alt="High Quality Service" style="width: 80px; height: auto; margin-bottom: 15px;">
-        <h3 style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">High Quality Service</h3>
-        <h3 style="font-size: 18px; font-weight: bold; margin-bottom: 10px;"> <p style="font-size: 14px; color: #555; text-align: justify; text-justify: inter-word; hyphens: auto; line-height: 1.6; margin: 0 10px;">Premium quality eco-friendly solar panels are used for achieving maximun efficiency.</p>
-    </div>
-
-    <!-- Feature 4 -->
-    <div style="flex: 1 1 calc(25% - 20px); text-align: center; min-width: 220px;">
-        <img src="{{ asset('setting/brand/eco.jpg') }}" alt="Eco Friendly" style="width: 80px; height: auto; margin-bottom: 15px;">
-        <h3 style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">Green Energy  <p style="font-size: 14px; color: #555; text-align: justify; text-justify: inter-word; hyphens: auto; line-height: 1.6; margin: 0 10px;">
-            We are committed to promoting sustainable and eco-friendly energy solutions for a greener future.
-    </p>
-    </div>
-
-</div>
-
-
-            <!-- Mission & Vision Section -->
-<div class="row g-4" style="margin-bottom: 40px;">
-    <!-- Mission -->
-    <div class="col-lg-6 col-md-12">
-        <div class="card-animated flip" style="animation-delay: 0.2s; background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1); text-align: center; height: 100%;">
-            <div style="font-size: 50px; margin-bottom: 20px; color: #1565c0;">🎯</div>
-            <h3 style="font-size: 26px; font-weight: bold; color: #1565c0; margin-bottom: 20px;">Our Mission</h3>
-            <p style="font-size: 17px; line-height: 1.8; color: #333; text-align: justify; text-justify: inter-word;">
-                {{ $mission->mission_vision ?? 'Mission content is not available.' }}
-            </p>
         </div>
     </div>
-    <!-- Vision -->
-    <div class="col-lg-6 col-md-12">
-        <div class="card-animated flip" style="animation-delay: 0.4s; background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1); text-align: center; height: 100%;">
-            <div style="font-size: 50px; margin-bottom: 20px; color: #2e7d32;">🚀✨</div>
-            <h3 style="font-size: 26px; font-weight: bold; color: #2e7d32; margin-bottom: 20px;">Our Vision</h3>
-            <p style="font-size: 17px; line-height: 1.8; color: #333; text-align: justify; text-justify: inter-word;">
-                {{ $mission->text ?? 'Vision content is not available.' }}
-            </p>
+
+    {{-- ── Features ── --}}
+    <div class="ab-section">
+        <div class="ab-container">
+            <div class="ab-sh" data-aos="fade-up" data-aos-duration="700">
+                <span class="ab-section-tag">Our Strengths</span>
+                <h2>What Sets Us Apart</h2>
+            </div>
+            <div class="ab-features">
+                <div class="ab-feature-card" data-aos="fade-up" data-aos-delay="0" data-aos-duration="700">
+                    <img src="{{ asset('setting/brand/hybrid.png') }}" alt="Reliable" class="ab-feature-icon">
+                    <div class="ab-feature-title">Reliable</div>
+                    <p class="ab-feature-text">Our service is fully customer-centric and focused on bringing the best results and a smile of satisfaction on your face.</p>
+                </div>
+                <div class="ab-feature-card" data-aos="fade-up" data-aos-delay="90" data-aos-duration="700">
+                    <img src="{{ asset('setting/brand/best_price.jpg') }}" alt="Affordable Price" class="ab-feature-icon">
+                    <div class="ab-feature-title">Affordable Price</div>
+                    <p class="ab-feature-text">Affordability and quality are always on top of our agenda, with customer convenience given top priority.</p>
+                </div>
+                <div class="ab-feature-card" data-aos="fade-up" data-aos-delay="180" data-aos-duration="700">
+                    <img src="{{ asset('setting/brand/quality.png') }}" alt="High Quality Service" class="ab-feature-icon">
+                    <div class="ab-feature-title">High Quality Service</div>
+                    <p class="ab-feature-text">Premium quality, industry-leading guidance to help students achieve their maximum potential.</p>
+                </div>
+                <div class="ab-feature-card" data-aos="fade-up" data-aos-delay="270" data-aos-duration="700">
+                    <img src="{{ asset('setting/brand/eco.jpg') }}" alt="Global Reach" class="ab-feature-icon">
+                    <div class="ab-feature-title">Green Energy</div>
+                    <p class="ab-feature-text">We are committed to promoting sustainable and eco-friendly solutions for a better future.</p>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-
-  <!-- License Section -->
-    <div class="card-animated rotate" style="animation-delay: 0.6s; background: #ffffff; padding: 40px; margin-bottom: 30px; border-radius: 16px; box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1); text-align: center;">
-        <div style="font-size: 50px; margin-bottom: 20px; color: #0d47a1;">📜</div>
-        <h3 style="font-size: 26px; font-weight: bold; color: #0d47a1; margin-bottom: 20px;">Our License</h3>
-        <p style="font-size: 17px; line-height: 1.8; color: #333; margin-bottom: 25px;">
-            Official government-recognized license for authorized operations.
-        </p>
-        @if($mission->pdf_file)
-            <a href="{{ asset('setting/mission/' . $mission->pdf_file) }}" target="_blank" class="btn-animated" style="padding: 12px 28px; background-color: #0d47a1; color: #fff; font-size: 16px; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 12px rgba(13, 71, 161, 0.2); text-decoration: none;">
-                📄 View Official License
-            </a>
-        @else
-            <span class="text-muted">No License File</span>
-        @endif
+    {{-- ── Mission & Vision ── --}}
+    <div class="ab-section-alt">
+        <div class="ab-container">
+            <div class="ab-sh" data-aos="fade-up" data-aos-duration="700">
+                <span class="ab-section-tag">Our Direction</span>
+                <h2>Mission & Vision</h2>
+                <p>The values and goals that drive everything we do</p>
+            </div>
+            <div class="ab-mv-grid">
+                <div class="ab-mv-card mission" data-aos="fade-right" data-aos-duration="800">
+                    <span class="ab-mv-emoji">🎯</span>
+                    <h3>Our Mission</h3>
+                    <p>{{ $mission->mission_vision ?? 'Mission content is not available.' }}</p>
+                </div>
+                <div class="ab-mv-card vision" data-aos="fade-left" data-aos-duration="800">
+                    <span class="ab-mv-emoji">🚀</span>
+                    <h3>Our Vision</h3>
+                    <p>{{ $mission->text ?? 'Vision content is not available.' }}</p>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Portfolio Section -->
-    <div class="card-animated rotate" style="animation-delay: 0.8s; background: #ffffff; padding: 40px; border-radius: 16px; box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1); text-align: center;">
-        <div style="font-size: 50px; margin-bottom: 20px; color: #6a1b9a;">💼</div>
-        <h3 style="font-size: 26px; font-weight: bold; color: #6a1b9a; margin-bottom: 20px;">Our Portfolio</h3>
-        <p style="font-size: 17px; line-height: 1.8; color: #333; margin-bottom: 25px;">
-            Showcase of our work and achievements.
-        </p>
-        @if($mission->portfolio)
-            <a href="{{ asset('setting/mission/' . $mission->portfolio) }}" target="_blank" class="btn-animated" style="padding: 12px 28px; background-color: #6a1b9a; color: #fff; font-size: 16px; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 12px rgba(106, 27, 154, 0.2); text-decoration: none;">
-                📄 View Portfolio
-            </a>
-        @else
-            <span class="text-muted">No Portfolio File</span>
-        @endif
+    {{-- ── License & Portfolio ── --}}
+    <div class="ab-section">
+        <div class="ab-container">
+            <div class="ab-sh" data-aos="fade-up" data-aos-duration="700">
+                <span class="ab-section-tag">Documents</span>
+                <h2>License & Portfolio</h2>
+                <p>Official credentials and a showcase of our work</p>
+            </div>
+            <div class="ab-doc-grid">
+                <div class="ab-doc-card" data-aos="fade-right" data-aos-duration="800">
+                    <span class="ab-doc-emoji">📜</span>
+                    <h3>Our License</h3>
+                    <p>Official government-recognized license for authorized education consultancy operations.</p>
+                    @if($mission->pdf_file)
+                        <a href="{{ asset('setting/mission/' . $mission->pdf_file) }}" target="_blank" class="ab-doc-btn">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            View Official License
+                        </a>
+                    @else
+                        <span style="color:var(--text-light);font-size:14px;">No License File Available</span>
+                    @endif
+                </div>
+                <div class="ab-doc-card" data-aos="fade-left" data-aos-duration="800">
+                    <span class="ab-doc-emoji">💼</span>
+                    <h3>Our Portfolio</h3>
+                    <p>Explore our showcase of work, achievements, and successful student placements worldwide.</p>
+                    @if($mission->portfolio)
+                        <a href="{{ asset('setting/mission/' . $mission->portfolio) }}" target="_blank" class="ab-doc-btn">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            View Portfolio
+                        </a>
+                    @else
+                        <span style="color:var(--text-light);font-size:14px;">No Portfolio File Available</span>
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
-
-<script>
-    // Scroll-trigger animation
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('in-view');
-            }
-        });
-    }, { threshold: 0.2 });
-
-    document.querySelectorAll('.fade-up, .slide-left, .slide-right, .zoom, .flip, .rotate, .banner-text')
-        .forEach(el => observer.observe(el));
-</script>
 @endsection
