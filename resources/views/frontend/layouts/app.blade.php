@@ -19,7 +19,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/css/bootstrap.min.css') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset(get_setting('favicon')) }}">
     <!-- Bootstrap v4.4.1 css -->
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/meanmenu.css') }}">
     <!-- font-awesome css -->
@@ -61,7 +61,7 @@
 
     <!-- WhatsApp Floating Chat -->
     <div id="whatsapp-popup">
-        <p>👋 Hi there! Need help? <br> Chat with us on WhatsApp.</p>
+        <p>👋 Hi there! <br> Need help?</p>
     </div>
 
     <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $phone) }}" target="_blank" id="whatsapp-chat-btn">
@@ -132,12 +132,14 @@
             #whatsapp-popup {
                 display: none !important;
             }
+
             #whatsapp-chat-btn {
                 bottom: 30px;
                 right: 20px;
                 width: 50px;
                 height: 50px;
             }
+
             #whatsapp-chat-btn img {
                 width: 30px;
                 height: 30px;
@@ -221,7 +223,10 @@
             // Fallback native click handler for Scroll to Top button
             document.addEventListener('click', function(e) {
                 if (e.target.closest('.go-top')) {
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 }
             });
         });

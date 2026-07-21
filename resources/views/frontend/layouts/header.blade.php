@@ -61,6 +61,9 @@
         align-items: center;
         flex-shrink: 0;
         text-decoration: none;
+        background: #ffffff;
+        padding: 4px 8px;
+        border-radius: 4px;
     }
 
     .nt-logo img {
@@ -418,11 +421,11 @@ $services = DB::table('services')->where('is_active', 1)->latest()->get();
 
             {{-- Phone CTA --}}
             <div class="nt-phone-btn-wrap">
-                <a class="nt-phone-btn" href="tel:01713032966">
+                <a class="nt-phone-btn" href="tel:{{ get_setting('office_phone') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.47 11.47 0 003.59.57 1 1 0 011 1V20a1 1 0 01-1 1C9.61 21 3 14.39 3 6a1 1 0 011-1h3.5a1 1 0 011 1 11.47 11.47 0 00.57 3.59 1 1 0 01-.25 1.01l-2.2 2.19z" />
                     </svg>
-                    01713-032966
+                    {{ get_setting('office_phone') }}
                 </a>
             </div>
 
@@ -474,11 +477,11 @@ $services = DB::table('services')->where('is_active', 1)->latest()->get();
                         href="/contact">Contact</a>
                 </li>
                 <li>
-                    <a class="nt-mobile-phone" href="tel:01713032966">
+                    <a class="nt-mobile-phone" href="tel:{{ get_setting('office_phone') }}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.47 11.47 0 003.59.57 1 1 0 011 1V20a1 1 0 01-1 1C9.61 21 3 14.39 3 6a1 1 0 011-1h3.5a1 1 0 011 1 11.47 11.47 0 00.57 3.59 1 1 0 01-.25 1.01l-2.2 2.19z" />
                         </svg>
-                        01713-032966
+                        {{ get_setting('office_phone') }}
                     </a>
                 </li>
             </ul>
