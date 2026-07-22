@@ -29,7 +29,7 @@
 </head>
 
 
-<body class="hold-transition sidebar-mini text-sm">
+<body class="hold-transition text-sm admin-modern-layout">
     <div class="wrapper">
         {{-- <div class="preloader">
             <div class="spinner-container">
