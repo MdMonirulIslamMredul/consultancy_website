@@ -2,129 +2,515 @@
 @section('content')
 
 @section('title', __('Blogs'))
-
 <title>{{ app_name() }} | @yield('title')</title>
-    <div class="banner-area pb-100">
-        <div class="container-fluid">
-            <div class="hero-slider owl-carousel owl-theme" data-slider-id="1">
-                <div class="slider-item" style="background-image: url('{{ asset('/setting/blog/' . $banner->banner) }}')">
-                    <div class="slider-content">
-                        <h2 style="
-                            font-size: 60px;
-                            font-weight: 900;
-                            color: #ffffff;
-                            text-transform: uppercase;
-                            letter-spacing: 3px;
-                            text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
-                        ">
-                         Blogs
-                        </h2>
-                    </div>
-                </div>
-            </div>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    :root {
+        --brand: #C72027;
+        --brand-dark: #A61B21;
+        --brand-light: #FDECEA;
+        --text-dark: #1A1A2E;
+        --text-mid: #4B5563;
+        --text-light: #9CA3AF;
+        --bg-light: #F8F9FB;
+        --white: #FFFFFF;
+        --border: rgba(0, 0, 0, .07);
+    }
+
+    .bl-wrap * {
+        font-family: 'Inter', sans-serif;
+        box-sizing: border-box;
+    }
+
+    /* ── Hero ── */
+    .bl-hero {
+        position: relative;
+        height: 420px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: var(--brand);
+    }
+
+    .bl-hero-bg {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        filter: brightness(.45) saturate(.85);
+        transition: transform 8s ease;
+    }
+
+    .bl-hero:hover .bl-hero-bg {
+        transform: scale(1.04);
+    }
+
+    .bl-hero::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(199, 32, 40, 0.19) 0%, rgba(26, 26, 46, .78) 100%);
+    }
+
+    .bl-hero-inner {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        color: #fff;
+        padding: 0 20px;
+    }
+
+    .bl-hero-eyebrow {
+        display: inline-block;
+        background: rgba(255, 255, 255, .18);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, .3);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        padding: 6px 20px;
+        border-radius: 50px;
+        margin-bottom: 16px;
+    }
+
+    .bl-hero h1 {
+        font-size: clamp(36px, 5vw, 60px);
+        font-weight: 800;
+        margin: 0;
+        letter-spacing: -.5px;
+        text-shadow: 0 4px 24px rgba(0, 0, 0, .25);
+    }
+
+    /* ── Layout ── */
+    .bl-body {
+        background: var(--bg-light);
+        padding: 80px 0 90px;
+    }
+
+    .bl-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 30px;
+    }
+
+    .bl-layout {
+        display: grid;
+        grid-template-columns: 1fr 340px;
+        gap: 40px;
+        align-items: start;
+    }
+
+    /* ── Blog Cards ── */
+    .bl-card {
+        background: var(--white);
+        border-radius: 18px;
+        overflow: hidden;
+        border: 1.5px solid var(--border);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, .06);
+        transition: all .35s ease;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 32px;
+        position: relative;
+    }
+
+    .bl-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--brand);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform .35s ease;
+        z-index: 1;
+    }
+
+    .bl-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, .12);
+        border-color: rgba(199, 32, 39, .15);
+    }
+
+    .bl-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .bl-card-img {
+        height: 260px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .bl-card-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform .6s ease;
+    }
+
+    .bl-card:hover .bl-card-img img {
+        transform: scale(1.06);
+    }
+
+    .bl-card-body {
+        padding: 30px 32px 34px;
+    }
+
+    .bl-card-meta {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 16px;
+        font-size: 13px;
+        color: var(--text-light);
+        font-weight: 500;
+    }
+
+    .bl-card-meta span {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .bl-card-meta svg {
+        color: var(--brand);
+        flex-shrink: 0;
+    }
+
+    .bl-card-body h3 {
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin: 0 0 14px;
+        line-height: 1.35;
+        letter-spacing: -.2px;
+        transition: color .3s;
+    }
+
+    .bl-card-body h3 a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .bl-card-body h3 a:hover {
+        color: var(--brand);
+    }
+
+    .bl-card-body p {
+        font-size: 15px;
+        color: var(--text-mid);
+        line-height: 1.7;
+        margin: 0 0 24px;
+    }
+
+    .bl-read-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: linear-gradient(135deg, #6B7280 0%, #9CA3AF 100%);
+        color: #fff !important;
+        font-weight: 700;
+        font-size: 14px;
+        padding: 11px 26px;
+        border-radius: 50px;
+        text-decoration: none !important;
+        transition: all .35s ease;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, .18);
+        letter-spacing: .3px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .bl-read-btn::before {
+        content: '';
+        position: absolute;
+        top: 0; left: -75%;
+        width: 50%; height: 100%;
+        background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.28) 50%, transparent 100%);
+        transform: skewX(-20deg);
+        transition: left .55s ease;
+        pointer-events: none;
+    }
+
+    .bl-read-btn:hover::before {
+        left: 130%;
+    }
+
+    .bl-read-btn:hover {
+        background: linear-gradient(135deg, #C72027 0%, #e03037 100%);
+        transform: translateY(-2px);
+        box-shadow:
+            0 8px 24px rgba(199, 32, 39, .5),
+            0 0 0 5px rgba(199, 32, 39, .1);
+        color: #fff !important;
+    }
+
+    .bl-read-btn svg {
+        transition: transform .3s ease;
+    }
+
+    .bl-read-btn:hover svg {
+        transform: translateX(4px);
+    }
+
+    /* ── Sidebar ── */
+    .bl-sidebar-card {
+        background: var(--white);
+        border-radius: 18px;
+        padding: 28px 26px;
+        border: 1.5px solid var(--border);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, .06);
+        margin-bottom: 28px;
+    }
+
+    .bl-sidebar-title {
+        font-size: 18px;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin: 0 0 22px;
+        padding-bottom: 14px;
+        border-bottom: 2px solid var(--bg-light);
+        position: relative;
+        letter-spacing: -.2px;
+    }
+
+    .bl-sidebar-title::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -2px;
+        width: 40px;
+        height: 2px;
+        background: var(--brand);
+    }
+
+    .bl-recent-item {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--bg-light);
+        text-decoration: none;
+        transition: all .3s ease;
+    }
+
+    .bl-recent-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .bl-recent-item:hover {
+        text-decoration: none;
+    }
+
+    .bl-recent-item:hover .bl-recent-title {
+        color: var(--brand);
+    }
+
+    .bl-recent-img {
+        width: 70px;
+        height: 70px;
+        border-radius: 12px;
+        overflow: hidden;
+        flex-shrink: 0;
+        border: 1.5px solid var(--border);
+    }
+
+    .bl-recent-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform .4s ease;
+    }
+
+    .bl-recent-item:hover .bl-recent-img img {
+        transform: scale(1.08);
+    }
+
+    .bl-recent-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .bl-recent-title {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--text-dark);
+        line-height: 1.4;
+        transition: color .3s;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .bl-recent-date {
+        font-size: 12px;
+        color: var(--text-light);
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .bl-recent-date svg {
+        color: var(--brand);
+    }
+
+    /* ── Empty state ── */
+    .bl-empty {
+        text-align: center;
+        padding: 80px 30px;
+        background: var(--white);
+        border-radius: 18px;
+        border: 1.5px solid var(--border);
+    }
+
+    .bl-empty svg {
+        color: var(--text-light);
+        margin-bottom: 16px;
+    }
+
+    .bl-empty p {
+        font-size: 17px;
+        color: var(--text-mid);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+        .bl-layout {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .bl-body {
+            padding: 50px 0 60px;
+        }
+
+        .bl-card-img {
+            height: 200px;
+        }
+
+        .bl-card-body {
+            padding: 22px 22px 26px;
+        }
+
+        .bl-card-body h3 {
+            font-size: 19px;
+        }
+
+        .bl-hero {
+            height: 320px;
+        }
+    }
+</style>
+
+<div class="bl-wrap">
+
+    {{-- Hero --}}
+    <div class="bl-hero">
+        <div class="bl-hero-bg" style="background-image: url('{{ asset('/setting/blog/' . $banner->banner) }}')"></div>
+        <div class="bl-hero-inner" data-aos="fade-up" data-aos-duration="800">
+            <span class="bl-hero-eyebrow">Insights & Updates</span>
+            <h1>Our Blog</h1>
         </div>
     </div>
 
-    <div class="latest-news-area pt-100 pb-70">
-        <div class="container">
-            <h1>Blogs</h1>
-            <style>
-                /* Card radius + orange border hover (no size changes) */
-                .single-news-card {border-radius:12px; border:2px solid transparent; overflow:hidden; transition:border-color .3s ease, box-shadow .3s ease;}
-                .single-news-card:hover {border-color:#ff8c00; box-shadow:0 8px 24px -6px rgba(0,0,0,.15);}
-                /* Preserve image sizing; no modifications */
-                /* Read More button styling */
-                .single-news-card .read-more-btn {display:inline-block; background:#4abb6e; color:#ffffff !important; font-weight:600; font-size:14px; padding:10px 22px; border-radius:30px; letter-spacing:.5px; text-decoration:none; box-shadow:0 4px 14px -4px rgba(255,140,0,.55); transition:.35s ease; border:1px solid #ff8c00;}
-                .single-news-card .read-more-btn i {margin-left:6px; font-size:14px;}
-                .single-news-card .read-more-btn:hover {background:#ffa438; border-color:#ffa438; box-shadow:0 0 0 4px rgba(255,140,0,.25), 0 10px 26px -6px rgba(255,140,0,.6); transform:translateY(-3px);}
-                .single-news-card .read-more-btn:active {transform:translateY(0); box-shadow:0 2px 10px -4px rgba(255,140,0,.55);}
-                .single-news-card .read-more-btn:focus-visible {outline:3px solid rgba(255,140,0,.45); outline-offset:3px;}
-                /* Dark theme button */
-                .theme-dark .single-news-card .read-more-btn {background:#ff8c00; border-color:#ff8c00; box-shadow:0 4px 14px -4px rgba(255,140,0,.65);}
-                .theme-dark .single-news-card .read-more-btn:hover {background:#ffa438; border-color:#ffa438;}
-                /* Related posts modern styling */
-                .related-post-area {background:#ffffff; border-radius:16px; padding:24px 22px 10px; box-shadow:0 10px 30px -12px rgba(0,0,0,.15); border:2px solid transparent; transition:.35s ease;}
-                .related-post-area:hover {border-color:#ff8c00;}
-                .related-post-area h3 {font-size:22px; font-weight:700; margin:0 0 22px; position:relative; letter-spacing:.5px;}
-                .related-post-area h3:after {content:''; position:absolute; left:0; bottom:-10px; width:70px; height:4px; background:#ff8c00; border-radius:4px;}
-                .related-post-box {background:#f5f7fa; border:1px solid #e1e5ea; border-radius:12px; margin-bottom:16px; transition:.35s ease; overflow:hidden;}
-                .related-post-box:hover {background:#ffffff; border-color:#ff8c00; box-shadow:0 12px 28px -10px rgba(0,0,0,.20); transform:translateY(-4px);}
-                .related-post-content {display:flex; align-items:center; gap:16px; padding:12px 14px;}
-                .related-post-content img {width:74px; height:74px; object-fit:cover; border-radius:10px; flex-shrink:0; box-shadow:0 4px 14px -6px rgba(0,0,0,.25);}
-                .related-post-content h4 {font-size:15px; font-weight:600; margin:0; line-height:1.35; color:#172b3f; transition:color .3s ease;}
-                .related-post-content a {text-decoration:none;}
-                .related-post-content a:hover h4 {color:#ff8c00 !important;}
-                /* Dark theme overrides */
-                .theme-dark .related-post-area {background:#1f2937; box-shadow:0 10px 30px -12px rgba(0,0,0,.55);}
-                .theme-dark .related-post-box {background:#243447; border-color:#2e4254;}
-                .theme-dark .related-post-box:hover {background:#2d3d4d; border-color:#ff8c00;}
-                .theme-dark .related-post-content h4 {color:#e5e7eb;}
-                .theme-dark .related-post-area h3 {color:#e5e7eb;}
-                .theme-dark .related-post-area h3:after {background:#ff8c00;}
-                @media (max-width: 991px){ .related-post-area {margin-top:40px;} }
-                @media (max-width: 575px){ .related-post-content {padding:10px 12px; gap:12px;} .related-post-content img {width:66px; height:66px;} }
-            </style>
-            <div class="row">
-                <div class="col-lg-8 col-md-6">
-                    @foreach ($blogs as $blog)
-                        <div class="single-news-card">
-                            <div class="news-img">
-                                <a href="/blog/details/{{ $blog->id }}">
-                                    <img src="{{ asset('/setting/blog/' . $blog->image1) }}" alt="Image">
-                                </a>
-                            </div>
-                            <div class="news-content">
-                                <div class="list">
-                                    <ul>
-                                        <li><i class="flaticon-user"></i>By <span style="color: #000;">Admin</span></li>
-                                        <li><i class="fa fa-calendar-check-o"></i>
-                                            <span style="color: #000;">{{ date('j F, Y', strtotime($blog->created_at)) }}</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <a href="/blog/details/{{ $blog->id }}" style="text-decoration: none; color: #000;">
-                                    <h3>{{ $blog->title ?? null }}</h3>
-                                </a>
-                                <a href="/blog/details/{{ $blog->id }}" class="read-more-btn" style="text-decoration: none; color: #000;">
-                                    Read More<i class="flaticon-next"></i>
-                                </a>
-                            </div>
+    {{-- Body --}}
+    <div class="bl-body">
+        <div class="bl-container">
+            <div class="bl-layout">
+
+                {{-- Blog List --}}
+                <div class="bl-posts">
+                    @forelse ($blogs as $blog)
+                    <article class="bl-card" data-aos="fade-up" data-aos-duration="700" data-aos-delay="{{ $loop->index * 80 }}">
+                        @if($blog->image1)
+                        <div class="bl-card-img">
+                            <a href="/blog/details/{{ $blog->id }}">
+                                <img src="{{ asset('/setting/blog/' . $blog->image1) }}" alt="{{ $blog->title }}">
+                            </a>
                         </div>
-                    @endforeach
+                        @endif
+                        <div class="bl-card-body">
+                            <div class="bl-card-meta">
+                                <span>
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                                        <circle cx="12" cy="7" r="4" />
+                                    </svg>
+                                    Admin
+                                </span>
+                                <span>
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" />
+                                        <path d="M16 2v4M8 2v4M3 10h18" />
+                                    </svg>
+                                    {{ date('j M Y', strtotime($blog->created_at)) }}
+                                </span>
+                            </div>
+                            <h3><a href="/blog/details/{{ $blog->id }}">{{ $blog->title }}</a></h3>
+                            @if($blog->details1)
+                            <p>{{ Str::limit(strip_tags($blog->details1), 130) }}</p>
+                            @endif
+                            <a href="/blog/details/{{ $blog->id }}" class="bl-read-btn">
+                                Read More
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+                    @empty
+                    <div class="bl-empty">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                            <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
+                        </svg>
+                        <p>No blog posts found.</p>
+                    </div>
+                    @endforelse
                 </div>
 
-                <div class="col-lg-4">
-                    {{-- <div class="category-list">
-                        <h3>Study Destination</h3>
-                        <ul>
-                            @foreach ($destination as $study)
-                                <li>
-                                    <a href="/study_destination/{{ $study->id }}" style="text-decoration: none; color: #000;">
-                                        Study in {{ $study->title }} <i class="ri-arrow-drop-right-fill"></i>
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div> --}}
-                    <div class="related-post-area">
-                        <h3>Latest Posts</h3>
-                        @foreach ($recent as $blog)
-                            <div class="related-post-box">
-                                <div class="related-post-content">
-                                    <a href="/blog/details/{{ $blog->id }}" style="text-decoration: none; color: #000;">
-                                        <img src="{{ asset('/setting/blog/' . $blog->image1) }}" alt="Image">
-                                    </a>
-                                    <h4>
-                                        <a href="/blog/details/{{ $blog->id }}" style="text-decoration: none; color: #000;">
-                                            {{ $blog->title }}
-                                        </a>
-                                    </h4>
+                {{-- Sidebar --}}
+                <aside>
+                    <div class="bl-sidebar-card" data-aos="fade-left" data-aos-duration="700">
+                        <div class="bl-sidebar-title">Latest Posts</div>
+                        @foreach ($recent as $post)
+                        <a href="/blog/details/{{ $post->id }}" class="bl-recent-item">
+                            @if($post->image1)
+                            <div class="bl-recent-img">
+                                <img src="{{ asset('/setting/blog/' . $post->image1) }}" alt="{{ $post->title }}">
+                            </div>
+                            @endif
+                            <div class="bl-recent-info">
+                                <div class="bl-recent-title">{{ $post->title }}</div>
+                                <div class="bl-recent-date">
+                                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                        <rect x="3" y="4" width="18" height="18" rx="2" />
+                                        <path d="M16 2v4M8 2v4M3 10h18" />
+                                    </svg>
+                                    {{ date('j M Y', strtotime($post->created_at)) }}
                                 </div>
                             </div>
+                        </a>
                         @endforeach
                     </div>
-                </div>
+                </aside>
+
             </div>
         </div>
     </div>
+
+</div>
 @endsection
