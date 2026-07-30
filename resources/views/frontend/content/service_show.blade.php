@@ -1,152 +1,555 @@
 @extends('frontend.layouts.app')
 @section('content')
 @php
-    abort_if(optional($service)->is_active != 1, 404);
-    $images = [
-        $service->image1 ?? null,
-        $service->image2 ?? null,
-        $service->image3 ?? null,
-    ];
+abort_if(optional($service)->is_active != 1, 404);
+$images = [
+$service->image1 ?? null,
+$service->image2 ?? null,
+$service->image3 ?? null,
+];
 @endphp
 
 <style>
-    .service-banner {position:relative; padding:130px 0 120px; background:#17354f; color:#fff; overflow:hidden;}
-    .service-banner.has-bg {background-size:cover; background-position:center;}
-    .service-banner:before {content:''; position:absolute; inset:0; background:rgba(23,53,79,.72); mix-blend-mode:multiply;}
-    .service-banner .inner {position:relative; z-index:2; max-width:1050px; margin:0 auto; padding:0 25px; text-align:center;}
-    .service-banner h1 {font-size:60px; font-weight:800; margin:0 0 20px; letter-spacing:.5px;}
-    .service-banner .lead {font-size:20px; line-height:1.55; max-width:900px; margin:0 auto 22px; opacity:.92;}
-    .service-banner .crumbs {display:flex; gap:8px; justify-content:center; font-size:14px; margin-top:8px; flex-wrap:wrap;}
-    .service-banner .crumbs a {color:#ffcc80; text-decoration:none;}
-    .service-banner .crumbs span {color:#c1ced6;}
+    /* ── Google Font ── */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-    .service-sections {max-width:1200px; margin:0 auto; padding:70px 25px 40px;}
-    .service-row {display:flex; align-items:center; gap:60px; margin-bottom:100px;}
-    .service-row.reverse {flex-direction:row-reverse;}
-    .service-row .media {flex:1;}
-    .service-row .media figure {margin:0;}
-    .service-row .media img {width:100%; height:430px; object-fit:cover; border-radius:32px; box-shadow:0 18px 46px -14px rgba(0,0,0,.35); transition:.55s;}
-    .service-row .media img:hover {transform:scale(1.025);}
-    .service-row .content {flex:1;}
-    .service-row .content h2 {font-size:46px; font-weight:700; margin:0 0 24px; color:#17354f; position:relative;}
-    .service-row .content h2:after {content:''; width:90px; height:5px; background:#2D6DB0; position:absolute; left:0; bottom:-14px; border-radius:4px;}
-    .service-row .content .text {font-size:18px; line-height:1.7; color:#2b4558;}
-    .service-row .content .text p {margin-bottom:18px;}
-
-    .cta-panel {margin:10px auto 30px; background:linear-gradient(135deg,#1c85bc,#2caf3b); border-radius:30px; padding:56px 60px; color:#fff; box-shadow:0 20px 54px -16px rgba(23,53,79,.55); position:relative; overflow:hidden; max-width:1200px;}
-    .cta-panel:before {content:''; position:absolute; inset:0; background:radial-gradient(circle at 70% 30%, rgba(255,255,255,.15), transparent 65%); pointer-events:none;}
-    .cta-panel .cta-actions {position:relative; z-index:2;}
-    .cta-panel h2 {font-size:44px; font-weight:800; margin:0 0 22px; letter-spacing:.5px;}
-    .cta-panel p {font-size:20px; line-height:1.55; opacity:.92; max-width:880px;}
-    .cta-panel .cta-actions {margin-top:30px; display:flex; flex-wrap:wrap; gap:20px;}
-    .cta-panel a.cta-btn {display:inline-block; background:#ff8c00; color:#fff; padding:18px 44px; font-weight:700; font-size:19px; text-decoration:none; border-radius:50px; letter-spacing:.5px; box-shadow:0 8px 22px rgba(255,140,0,.45); transition:.35s;}
-    .cta-panel a.cta-btn.secondary {background:#2D6DB0; box-shadow:0 8px 22px rgba(45,109,176,.45);}
-    .cta-panel a.cta-btn:hover {transform:translateY(-4px);}
-
-    /* Dark theme adjustments */
-    .theme-dark .service-row .content h2 {color:#f2f6f9;}
-    .theme-dark .service-row .content h2:after {background:#ff8c00;}
-    .theme-dark .service-row .content .text {color:#c9d3dc;}
-    .theme-dark .cta-panel {background:linear-gradient(135deg,#17354f,#0d1d28);}
-
-    @media (max-width: 1199px){
-        .service-row {gap:45px;}
+    /* ── Variables ── */
+    :root {
+        --brand: #C72027;
+        --brand-dark: #A61B21;
+        --brand-light: #FDECEA;
+        --text-dark: #1A1A2E;
+        --text-mid: #4B5563;
+        --text-light: #9CA3AF;
+        --bg-light: #F8F9FB;
+        --white: #FFFFFF;
+        --radius-lg: 20px;
+        --radius-xl: 32px;
+        --shadow-sm: 0 4px 16px rgba(0, 0, 0, .07);
+        --shadow-md: 0 12px 36px rgba(0, 0, 0, .12);
+        --shadow-lg: 0 24px 60px rgba(0, 0, 0, .16);
     }
-    @media (max-width: 991px){
-        .service-banner {padding:110px 0 100px;}
-        .service-banner h1 {font-size:48px;}
-        .service-row {flex-direction:column; gap:34px; margin-bottom:80px;}
-        .service-row.reverse {flex-direction:column;}
-        .service-row .media img {height:380px;}
-        .service-row .content h2 {font-size:38px;}
-        .cta-panel h2 {font-size:38px;}
+
+    .sv-wrap * {
+        font-family: 'Inter', sans-serif;
+        box-sizing: border-box;
     }
-    @media (max-width: 575px){
-        .service-banner {padding:85px 0 70px;}
-        .service-banner h1 {font-size:34px;}
-        .service-banner .lead {font-size:16px;}
-        .service-row .media img {height:260px; border-radius:22px;}
-        .service-row .content h2 {font-size:30px;}
-        .cta-panel {padding:46px 34px;}
-        .cta-panel h2 {font-size:30px;}
-        .cta-panel a.cta-btn {padding:14px 32px; font-size:17px;}
+
+    /* ── Hero Banner ── */
+    .sv-hero {
+        position: relative;
+        min-height: 480px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--brand);
+        overflow: hidden;
+    }
+
+    .sv-hero.has-bg {
+        background-size: cover;
+        background-position: center;
+    }
+
+    .sv-hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(167, 15, 23, 0.19) 0%, rgba(26, 26, 46, .75) 100%);
+    }
+
+    /* Decorative circles */
+    .sv-hero::after {
+        content: '';
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, .08);
+        top: -200px;
+        right: -150px;
+        pointer-events: none;
+    }
+
+    .sv-hero-inner {
+        position: relative;
+        z-index: 2;
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 90px 30px 80px;
+        text-align: center;
+        color: #fff;
+    }
+
+    .sv-hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: rgba(255, 255, 255, .15);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, .25);
+        border-radius: 50px;
+        padding: 6px 18px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: .6px;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, .9);
+        margin-bottom: 22px;
+    }
+
+    .sv-hero h1 {
+        font-size: clamp(32px, 5vw, 58px);
+        font-weight: 800;
+        margin: 0 0 18px;
+        line-height: 1.15;
+        letter-spacing: -.5px;
+    }
+
+    .sv-hero .lead {
+        font-size: 17px;
+        line-height: 1.7;
+        opacity: .88;
+        max-width: 680px;
+        margin: 0 auto 28px;
+    }
+
+    .sv-hero .crumbs {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        font-size: 13px;
+        flex-wrap: wrap;
+        opacity: .8;
+    }
+
+    .sv-hero .crumbs a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .sv-hero .crumbs a:hover {
+        text-decoration: underline;
+    }
+
+    .sv-hero .crumbs span {
+        color: rgba(255, 255, 255, .6);
+    }
+
+    /* ── Content Sections ── */
+    .sv-body {
+        background: var(--bg-light);
+        padding: 90px 0 60px;
+    }
+
+    .sv-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 30px;
+    }
+
+    .sv-section {
+        display: flex;
+        align-items: center;
+        gap: 70px;
+        margin-bottom: 90px;
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-sm);
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, .05);
+    }
+
+    .sv-section.reverse {
+        flex-direction: row-reverse;
+    }
+
+    .sv-section-media {
+        flex: 0 0 46%;
+        position: relative;
+        min-height: 420px;
+        overflow: hidden;
+    }
+
+    .sv-section-media img {
+        width: 100%;
+        height: 100%;
+        min-height: 420px;
+        object-fit: cover;
+        display: block;
+        transition: transform .6s ease;
+    }
+
+    .sv-section-media:hover img {
+        transform: scale(1.04);
+    }
+
+    .sv-section-content {
+        flex: 1;
+        padding: 52px 52px 52px 0;
+    }
+
+    .sv-section.reverse .sv-section-content {
+        padding: 52px 0 52px 52px;
+    }
+
+    .sv-section-tag {
+        display: inline-block;
+        background: var(--brand-light);
+        color: var(--brand);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: .8px;
+        text-transform: uppercase;
+        padding: 5px 14px;
+        border-radius: 50px;
+        margin-bottom: 18px;
+    }
+
+    .sv-section-content h2 {
+        font-size: clamp(26px, 3vw, 38px);
+        font-weight: 800;
+        color: var(--text-dark);
+        margin: 0 0 20px;
+        line-height: 1.25;
+        letter-spacing: -.3px;
+        position: relative;
+        padding-bottom: 18px;
+    }
+
+    .sv-section-content h2::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 48px;
+        height: 4px;
+        background: var(--brand);
+        border-radius: 4px;
+    }
+
+    .sv-section-content .sv-text {
+        font-size: 16px;
+        line-height: 1.8;
+        color: var(--text-mid);
+        margin-top: 18px;
+    }
+
+    .sv-section-content .sv-text p {
+        margin-bottom: 14px;
+    }
+
+    .sv-section-content .sv-text p:last-child {
+        margin-bottom: 0;
+    }
+
+    /* No image variant */
+    .sv-section.no-media .sv-section-content {
+        flex: 1;
+        padding: 52px;
+    }
+
+    /* ── CTA Section ── */
+    .sv-cta-wrap {
+        padding: 0 30px 80px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .sv-cta {
+        background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+        border-radius: var(--radius-xl);
+        padding: 70px 70px;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 24px 64px -16px rgba(199, 32, 39, .5);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 40px;
+    }
+
+    .sv-cta::before {
+        content: '';
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, .06);
+        top: -200px;
+        right: -100px;
+        pointer-events: none;
+    }
+
+    .sv-cta::after {
+        content: '';
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, .04);
+        bottom: -120px;
+        left: 60px;
+        pointer-events: none;
+    }
+
+    .sv-cta-text {
+        position: relative;
+        z-index: 1;
+        flex: 1;
+    }
+
+    .sv-cta-text h2 {
+        font-size: clamp(26px, 3vw, 40px);
+        font-weight: 800;
+        margin: 0 0 14px;
+        letter-spacing: -.3px;
+        line-height: 1.2;
+    }
+
+    .sv-cta-text p {
+        font-size: 16px;
+        opacity: .88;
+        margin: 0;
+        line-height: 1.65;
+        max-width: 560px;
+    }
+
+    .sv-cta-actions {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        flex-shrink: 0;
+    }
+
+    .sv-cta-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        padding: 16px 36px;
+        font-weight: 700;
+        font-size: 15px;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: all .3s ease;
+        letter-spacing: .3px;
+        white-space: nowrap;
+    }
+
+    .sv-cta-btn.primary {
+        background: #fff;
+        color: var(--brand);
+        box-shadow: 0 8px 28px rgba(0, 0, 0, .18);
+    }
+
+    .sv-cta-btn.primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 14px 36px rgba(0, 0, 0, .22);
+    }
+
+    .sv-cta-btn.outline {
+        background: transparent;
+        color: #fff;
+        border: 2px solid rgba(255, 255, 255, .45);
+    }
+
+    .sv-cta-btn.outline:hover {
+        background: rgba(255, 255, 255, .12);
+        border-color: #fff;
+        transform: translateY(-3px);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+        .sv-section {
+            gap: 0;
+            flex-direction: column;
+        }
+
+        .sv-section.reverse {
+            flex-direction: column;
+        }
+
+        .sv-section-media {
+            flex: none;
+            width: 100%;
+            min-height: 320px;
+        }
+
+        .sv-section-media img {
+            min-height: 320px;
+        }
+
+        .sv-section-content,
+        .sv-section.reverse .sv-section-content {
+            padding: 40px 36px;
+        }
+
+        .sv-cta {
+            flex-direction: column;
+            text-align: center;
+            padding: 52px 40px;
+        }
+
+        .sv-cta-text p {
+            max-width: 100%;
+        }
+
+        .sv-cta-actions {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .sv-body {
+            padding: 60px 0 40px;
+        }
+
+        .sv-section {
+            margin-bottom: 40px;
+        }
+
+        .sv-section-content,
+        .sv-section.reverse .sv-section-content {
+            padding: 30px 24px;
+        }
+
+        .sv-cta {
+            padding: 44px 28px;
+        }
+
+        .sv-cta-actions {
+            flex-direction: column;
+        }
+
+        .sv-cta-btn {
+            width: 100%;
+        }
     }
 </style>
 
-<div class="service-banner {{ $service->image1 ? 'has-bg' : '' }}" @if($service->image1) style="background-image:url('{{ asset('/setting/service/' . $service->image1) }}')" @endif>
-    <div class="inner" data-aos="fade-up" data-aos-duration="800">
-        <h1>{{ $service->title }}</h1>
-        @if($service->details1)
-            <div class="lead">{!! Str::limit(strip_tags($service->details1), 170) !!}</div>
-        @endif
-        <div class="crumbs">
-            <a href="/">Home</a><span>/</span><a href="/service">Services</a><span>/</span><span>{{ $service->title }}</span>
+<div class="sv-wrap">
+
+    {{-- ── Hero Banner ── --}}
+    <div class="sv-hero {{ $service->image1 ? 'has-bg' : '' }}"
+        @if($service->image1) style="background-image:url('{{ asset('/setting/service/' . $service->image1) }}')" @endif>
+        <div class="sv-hero-inner" data-aos="fade-up" data-aos-duration="800">
+            <div class="sv-hero-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+                Our Services
+            </div>
+            <h1>{{ $service->title }}</h1>
+            <!-- @if($service->details1)
+            <div class="lead">{!! Str::limit(strip_tags($service->details1), 160) !!}</div>
+            @endif -->
+            <div class="crumbs">
+                <a href="/">Home</a>
+                <span>›</span>
+                <a href="/service">Services</a>
+                <span>›</span>
+                <span>{{ $service->title }}</span>
+            </div>
         </div>
     </div>
-</div>
 
-<div class="service-sections">
-    @if($service->details1 || $images[0])
-        <div class="service-row" data-aos="fade-up" data-aos-duration="800">
-            @if($images[0])
-            <div class="media" data-aos="zoom-in" data-aos-duration="900" data-aos-delay="120">
-                <figure>
-                    <img src="{{ asset('/setting/service/' . $images[0]) }}" alt="{{ $service->title }} primary image">
-                </figure>
+    {{-- ── Content Sections ── --}}
+    <div class="sv-body">
+        <div class="sv-container">
+
+            @if($service->details1 || $images[0])
+            <div class="sv-section {{ !$images[0] ? 'no-media' : '' }}" data-aos="fade-up" data-aos-duration="800">
+                @if($images[0])
+                <div class="sv-section-media">
+                    <img src="{{ asset('/setting/service/' . $images[0]) }}" alt="{{ $service->title }}">
+                </div>
+                @endif
+                @if($service->details1)
+                <div class="sv-section-content {{ !$images[0] ? '' : '' }}">
+                    <span class="sv-section-tag">Overview</span>
+                    <h2>About This Service</h2>
+                    <div class="sv-text">{!! $service->details1 !!}</div>
+                </div>
+                @endif
             </div>
             @endif
-            @if($service->details1)
-            <div class="content">
-                <h2>Overview</h2>
-                <div class="text">{!! $service->details1 !!}</div>
+
+            @if($service->details2 || $images[1])
+            <div class="sv-section reverse {{ !$images[1] ? 'no-media' : '' }}" data-aos="fade-up" data-aos-duration="800">
+                @if($images[1])
+                <div class="sv-section-media">
+                    <img src="{{ asset('/setting/service/' . $images[1]) }}" alt="{{ $service->title }}">
+                </div>
+                @endif
+                @if($service->details2)
+                <div class="sv-section-content">
+                    <span class="sv-section-tag">More Details</span>
+                    <h2>In-Depth Information</h2>
+                    <div class="sv-text">{!! $service->details2 !!}</div>
+                </div>
+                @endif
             </div>
             @endif
+
+            @if($service->details3 || $images[2])
+            <div class="sv-section {{ !$images[2] ? 'no-media' : '' }}" data-aos="fade-up" data-aos-duration="800">
+                @if($images[2])
+                <div class="sv-section-media">
+                    <img src="{{ asset('/setting/service/' . $images[2]) }}" alt="{{ $service->title }}">
+                </div>
+                @endif
+                @if($service->details3)
+                <div class="sv-section-content">
+                    <span class="sv-section-tag">Additional Info</span>
+                    <h2>What Else to Know</h2>
+                    <div class="sv-text">{!! $service->details3 !!}</div>
+                </div>
+                @endif
+            </div>
+            @endif
+
         </div>
-    @endif
-
-    @if($service->details2 || $images[1])
-        <div class="service-row reverse" data-aos="fade-up" data-aos-duration="800">
-            @if($service->details2)
-            <div class="content">
-                <h2>More Details</h2>
-                <div class="text">{!! $service->details2 !!}</div>
-            </div>
-            @endif
-            @if($images[1])
-            <div class="media" data-aos="zoom-in" data-aos-duration="900" data-aos-delay="120">
-                <figure>
-                    <img src="{{ asset('/setting/service/' . $images[1]) }}" alt="{{ $service->title }} secondary image">
-                </figure>
-            </div>
-            @endif
-        </div>
-    @endif
-
-    @if($service->details3 || $images[2])
-        <div class="service-row" data-aos="fade-up" data-aos-duration="800">
-            @if($images[2])
-            <div class="media" data-aos="zoom-in" data-aos-duration="900" data-aos-delay="120">
-                <figure>
-                    <img src="{{ asset('/setting/service/' . $images[2]) }}" alt="{{ $service->title }} tertiary image">
-                </figure>
-            </div>
-            @endif
-            @if($service->details3)
-            <div class="content">
-                <h2>Additional Info</h2>
-                <div class="text">{!! $service->details3 !!}</div>
-            </div>
-            @endif
-        </div>
-    @endif
-</div>
-
-<div class="cta-panel" data-aos="fade-up" data-aos-duration="900" data-aos-delay="150">
-    <h2>Interested in {{ $service->title }}?</h2>
-    <p>Get in touch to learn how our {{ $service->title }} solution can be tailored to meet your needs and deliver lasting performance and value.</p>
-    <div class="cta-actions">
-        <a href="{{ route('appointment.index') }}" class="cta-btn">Book Appointment</a>
-        <a href="/contact" class="cta-btn secondary">Contact Us</a>
     </div>
+
+    {{-- ── CTA ── --}}
+    <div class="sv-cta-wrap" data-aos="fade-up" data-aos-duration="900">
+        <div class="sv-cta">
+            <div class="sv-cta-text">
+                <h2>Ready to Get Started with {{ $service->title }}?</h2>
+                <p>Let our experts craft a tailored solution that fits your goals. Book a free consultation today.</p>
+            </div>
+            <div class="sv-cta-actions">
+                <a href="{{ route('appointment.index') }}" class="sv-cta-btn primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <rect x="3" y="4" width="18" height="18" rx="2" />
+                        <path d="M16 2v4M8 2v4M3 10h18" />
+                    </svg>
+                    Book Appointment
+                </a>
+                <a href="/contact" class="sv-cta-btn outline">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 014.07 9.81a2 2 0 012-2.18h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L10.09 14a16 16 0 006.29 6.29l.27-.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 22v-.08z" />
+                    </svg>
+                    Contact Us
+                </a>
+                <a href="/universities" class="sv-cta-btn outline" style="background: rgba(255,255,255,0.1);">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M12 14l9-5-9-5-9 5 9 5z" />
+                        <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                        <path d="M12 14v7" />
+                    </svg>
+                    Partner Universities
+                </a>
+            </div>
+        </div>
+    </div>
+
 </div>
 @endsection

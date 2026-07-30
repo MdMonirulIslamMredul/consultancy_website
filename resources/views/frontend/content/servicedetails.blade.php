@@ -5,102 +5,619 @@
 <title>{{ app_name() }} | @yield('title')</title>
 
 <style>
-    /* Service card hover border */
-    .single-service-card:hover {
-        border-color: #ff8c00 !important;
+    /* ── Google Font ── */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    :root {
+        --brand: #C72027;
+        --brand-dark: #A61B21;
+        --brand-light: #FDECEA;
+        --text-dark: #1A1A2E;
+        --text-mid: #4B5563;
+        --text-light: #9CA3AF;
+        --bg-light: #F8F9FB;
+        --white: #FFFFFF;
+    }
+
+    .sd-wrap * {
+        font-family: 'Inter', sans-serif;
+        box-sizing: border-box;
+    }
+
+    /* ── Hero Banner ── */
+    .sd-hero {
+        position: relative;
+        height: 440px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: var(--brand);
+    }
+
+    .sd-hero-bg {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        filter: brightness(.45) saturate(.9);
+        transition: transform 8s ease;
+    }
+
+    .sd-hero:hover .sd-hero-bg {
+        transform: scale(1.04);
+    }
+
+    .sd-hero::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(199, 32, 40, 0.19) 0%, rgba(26, 26, 46, .78) 100%);
+    }
+
+    .sd-hero-inner {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        color: #fff;
+        padding: 0 20px;
+    }
+
+    .sd-hero-eyebrow {
+        display: inline-block;
+        background: rgba(255, 255, 255, .18);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, .3);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        padding: 6px 20px;
+        border-radius: 50px;
+        margin-bottom: 18px;
+    }
+
+    .sd-hero h1 {
+        font-size: clamp(34px, 5vw, 58px);
+        font-weight: 800;
+        margin: 0;
+        letter-spacing: -.5px;
+        line-height: 1.1;
+        text-shadow: 0 4px 24px rgba(0, 0, 0, .25);
+    }
+
+    /* ── Services Grid ── */
+    .sd-services {
+        padding: 90px 0 80px;
+        background: var(--bg-light);
+    }
+
+    .sd-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 30px;
+    }
+
+    .sd-section-header {
+        text-align: center;
+        margin-bottom: 58px;
+    }
+
+    .sd-section-tag {
+        display: inline-block;
+        background: var(--brand-light);
+        color: var(--brand);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: .8px;
+        text-transform: uppercase;
+        padding: 6px 18px;
+        border-radius: 50px;
+        margin-bottom: 14px;
+    }
+
+    .sd-section-header h2 {
+        font-size: clamp(28px, 3.5vw, 42px);
+        font-weight: 800;
+        color: var(--text-dark);
+        margin: 0 0 14px;
+        letter-spacing: -.4px;
+    }
+
+    .sd-section-header p {
+        font-size: 16px;
+        color: var(--text-mid);
+        margin: 0;
+    }
+
+    .sd-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+        gap: 32px;
+    }
+
+    .sd-card {
+        background: var(--white);
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1.5px solid rgba(0, 0, 0, .06);
+        box-shadow: 0 8px 28px rgba(0, 0, 0, .07);
+        transition: all .35s ease;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .sd-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--brand);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform .35s ease;
+    }
+
+    .sd-card:hover {
         transform: translateY(-8px);
-        box-shadow: 0 18px 42px rgba(0,0,0,0.2);
+        box-shadow: 0 24px 54px rgba(0, 0, 0, .14);
+        border-color: rgba(199, 32, 39, .15);
     }
-    /* Button hover border */
-    .service-detail-btn:hover {
-        border-color: #ff8c00 !important;
-        background: #25934f !important;
-        box-shadow: 0 0 0 4px rgba(255,140,0,.25), 0 10px 28px rgba(45,109,176,.4);
+
+    .sd-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .sd-card-img {
+        height: 240px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .sd-card-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform .55s ease;
+    }
+
+    .sd-card:hover .sd-card-img img {
+        transform: scale(1.07);
+    }
+
+    .sd-card-body {
+        padding: 28px 28px 32px;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .sd-card-body h3 {
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin: 0 0 12px;
+        letter-spacing: -.2px;
+        line-height: 1.3;
+    }
+
+    .sd-card-body p {
+        font-size: 14.5px;
+        line-height: 1.65;
+        color: var(--text-mid);
+        margin: 0 0 24px;
+        flex: 1;
+    }
+
+    .sd-card-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: linear-gradient(135deg, #6B7280 0%, #9CA3AF 100%);
+        color: #fff !important;
+        padding: 12px 26px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 14px;
+        text-decoration: none !important;
+        transition: all .35s ease;
+        align-self: flex-start;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, .18);
+        letter-spacing: .3px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .sd-card-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -75%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, .28) 50%, transparent 100%);
+        transform: skewX(-20deg);
+        transition: left .55s ease;
+        pointer-events: none;
+    }
+
+    .sd-card-btn:hover::before {
+        left: 130%;
+    }
+
+    .sd-card-btn:hover {
+        background: linear-gradient(135deg, #C72027 0%, #e03037 100%);
         transform: translateY(-2px);
+        box-shadow:
+            0 8px 24px rgba(199, 32, 39, .5),
+            0 0 0 5px rgba(199, 32, 39, .1);
+        color: #fff !important;
     }
-    /* Dark theme */
-    .theme-dark .single-service-card {
-        background: #1f2937 !important;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.55);
+
+    .sd-card-btn svg {
+        transition: transform .3s ease;
     }
-    .theme-dark .single-service-card:hover {
-        border-color: #ff8c00 !important;
-        background: #1f2937 !important;
+
+    .sd-card-btn:hover svg {
+        transform: translateX(4px);
     }
-    .theme-dark .service-detail-btn:hover {
-        border-color: #ff8c00 !important;
+
+    /* ── Partner Universities Grid ── */
+    .uv-partners {
+        padding: 80px 0;
+        background: var(--white);
+    }
+
+    .uv-section-title {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .uv-section-title h2 {
+        font-size: clamp(28px, 3.5vw, 42px);
+        font-weight: 800;
+        color: var(--text-dark);
+        margin: 0;
+        letter-spacing: -.5px;
+    }
+
+    .uv-section-title p {
+        font-size: 16px;
+        color: var(--text-mid);
+        margin: 10px 0 0;
+    }
+
+    .uv-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 25px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 30px;
+    }
+
+    .uv-card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 30px 20px;
+        text-align: center;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+        border: 1px solid rgba(0, 0, 0, 0.03);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 180px;
+    }
+
+    .uv-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+        border-color: rgba(0, 0, 0, 0.08);
+    }
+
+    .uv-card img {
+        max-width: 100%;
+        max-height: 80px;
+        object-fit: contain;
+        margin-bottom: 15px;
+        transition: transform 0.3s ease;
+    }
+
+    .uv-card:hover img {
+        transform: scale(1.05);
+    }
+
+    .uv-card span {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-dark);
+        display: block;
+    }
+
+    .uv-view-more {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+        .sd-services {
+            padding: 60px 0;
+        }
+
+        .sd-section-header {
+            margin-bottom: 40px;
+        }
+
+        .sd-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .uv-partners {
+            padding: 60px 0;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .sd-hero {
+            height: 340px;
+        }
+
+        .uv-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+    }
+
+    /* ── CTA Section ── */
+    .sd-cta-wrap {
+        padding: 0 30px 80px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .sd-cta {
+        background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+        border-radius: 32px;
+        padding: 70px 70px;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 24px 64px -16px rgba(199, 32, 39, .5);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 40px;
+    }
+
+    .sd-cta::before {
+        content: '';
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, .06);
+        top: -200px;
+        right: -100px;
+        pointer-events: none;
+    }
+
+    .sd-cta::after {
+        content: '';
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, .04);
+        bottom: -120px;
+        left: 60px;
+        pointer-events: none;
+    }
+
+    .sd-cta-text {
+        position: relative;
+        z-index: 1;
+        flex: 1;
+    }
+
+    .sd-cta-text h2 {
+        font-size: clamp(26px, 3vw, 40px);
+        font-weight: 800;
+        margin: 0 0 14px;
+        letter-spacing: -.3px;
+        line-height: 1.2;
+    }
+
+    .sd-cta-text p {
+        font-size: 16px;
+        opacity: .88;
+        margin: 0;
+        line-height: 1.65;
+        max-width: 560px;
+    }
+
+    .sd-cta-actions {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        flex-shrink: 0;
+    }
+
+    .sd-cta-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        padding: 16px 36px;
+        font-weight: 700;
+        font-size: 15px;
+        border-radius: 50px;
+        text-decoration: none;
+        transition: all .3s ease;
+        letter-spacing: .3px;
+        white-space: nowrap;
+    }
+
+    .sd-cta-btn.primary {
+        background: #fff;
+        color: var(--brand);
+        box-shadow: 0 8px 28px rgba(0, 0, 0, .18);
+    }
+
+    .sd-cta-btn.primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 14px 36px rgba(0, 0, 0, .22);
+    }
+
+    .sd-cta-btn.outline {
+        background: transparent;
+        color: #fff;
+        border: 2px solid rgba(255, 255, 255, .45);
+    }
+
+    .sd-cta-btn.outline:hover {
+        background: rgba(255, 255, 255, .12);
+        border-color: #fff;
+        transform: translateY(-3px);
+    }
+
+    @media (max-width: 1024px) {
+        .sd-cta {
+            flex-direction: column;
+            text-align: center;
+            padding: 52px 40px;
+        }
+
+        .sd-cta-text p {
+            max-width: 100%;
+        }
+
+        .sd-cta-actions {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .sd-cta {
+            padding: 44px 28px;
+        }
+
+        .sd-cta-actions {
+            flex-direction: column;
+        }
+
+        .sd-cta-btn {
+            width: 100%;
+        }
     }
 </style>
 
-<div class="main-content">
+<div class="sd-wrap">
 
-    <!-- Banner Section -->
-    <div class="banner-area pb-100" style="position: relative;">
-        <div class="container-fluid p-0">
-            <div class="hero-slider owl-carousel owl-theme" data-slider-id="1">
-                <div class="slider-item" style="background-image: url('{{ asset('/setting/service/' . $banner->banner) }}'); background-size: cover; background-position: center; height: 450px; display: flex; align-items: center; justify-content: center;">
-                    <div class="slider-content text-center">
-                        <h2 style="color: #fff; font-size: 52px; font-weight: 900; text-shadow: 3px 3px 12px rgba(0,0,0,0.6);">
-                            Our Services
-                        </h2>
+    {{-- ── Hero ── --}}
+    <div class="sd-hero">
+        <div class="sd-hero-bg" style="background-image: url('{{ asset('/setting/service/' . $banner->banner) }}')"></div>
+        <div class="sd-hero-inner" data-aos="fade-up" data-aos-duration="800">
+            <span class="sd-hero-eyebrow">Imperial Education & Career</span>
+            <h1>Our Services</h1>
+        </div>
+    </div>
+
+    {{-- ── Services Grid ── --}}
+    <section class="sd-services">
+        <div class="sd-container">
+            <div class="sd-section-header" data-aos="fade-up" data-aos-duration="700">
+                <span class="sd-section-tag">What We Offer</span>
+                <!-- <h2>Our Services</h2> -->
+                <p>Professional services designed to help you achieve your goals</p>
+            </div>
+
+            <div class="sd-grid">
+                @foreach ($services as $service)
+                <div class="sd-card" data-aos="fade-up" data-aos-duration="700" data-aos-delay="{{ $loop->index * 80 }}">
+                    @if($service->image1)
+                    <div class="sd-card-img">
+                        <img src="{{ asset('/setting/service/' . $service->image1) }}" alt="{{ $service->title }}">
+                    </div>
+                    @endif
+                    <div class="sd-card-body">
+                        <h3>{{ $service->title }}</h3>
+                        <p>{!! Str::limit(strip_tags($service->details1), 140) !!}</p>
+                        <a href="{{ route('service.show', $service->id) }}" class="sd-card-btn">
+                            View Details
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M5 12h14M12 5l7 7-7 7" />
+                            </svg>
+                        </a>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Services Section -->
-    <div class="services-area ptb-100" style="background: #f3f6f9;">
-        <div class="container">
-            <div class="section-title text-center mb-5">
-                <h2 style="font-size: 38px; font-weight: 800;">Our Services</h2>
-                <p style="color: #666; font-size: 16px;">Professional services to make your life easier</p>
-            </div>
-
-            <div class="row justify-content-center">
-                @foreach ($services as $service)
-                    <div class="col-lg-4 col-md-6 mb-5" data-aos="fade-up" data-aos-duration="1000">
-                        <div class="single-service-card" style="background:#fff; box-shadow:0 15px 35px rgba(0,0,0,0.15); border-radius:20px; overflow:hidden; transition:all .35s ease; position:relative; display:flex; flex-direction:column; height:100%; border:2px solid transparent;">
-                            @if($service->image1)
-                                <div class="img" style="height:380px; overflow:hidden;">
-                                    <img src="{{ asset('/setting/service/' . $service->image1) }}" alt="{{ $service->title }}" style="width:100%; height:100%; object-fit:cover; transform:scale(1.05); transition:transform .6s cubic-bezier(.19,1,.22,1);">
-                                </div>
-                            @endif
-                            <div class="service-content p-4 text-center" style="flex:1 1 auto; display:flex; flex-direction:column;">
-                                <h3 style="font-size:28px; font-weight:800; margin:0 0 14px; color:#17354f;">{{ $service->title }}</h3>
-                                <div style="font-size:15px; line-height:1.55; color:#4d606f; margin-bottom:18px; max-height:140px; overflow:auto;">{!! Str::limit(strip_tags($service->details1), 160) !!}</div>
-                                <div class="mt-auto">
-                                    <a href="{{ route('service.show', $service->id) }}" class="btn btn-primary service-detail-btn" style="background:#2db05f; border:2px solid transparent; padding:12px 26px; font-weight:700; border-radius:40px; letter-spacing:.5px; box-shadow:0 8px 24px rgba(45,109,176,.35); text-decoration:none; display:inline-block; transition:.35s; color:#fff;">See Details</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 @endforeach
             </div>
+        </div>
+    </section>
 
+    {{-- ── Partner Universities Section ── --}}
+    @if(isset($universities) && $universities->count() > 0)
+    <div class="uv-partners" data-aos="fade-up" data-aos-duration="800">
+        <div class="uv-section-title">
+            <span class="sd-section-tag">Partners</span>
+            <h2>Partner Universities</h2>
+            <p>Top institutions we partner with across the globe</p>
+        </div>
+
+        <div class="uv-grid">
+            @foreach($universities as $uni)
+            <a href="/universities/{{ $uni->id }}" class="uv-card">
+                <img src="{{ asset('/setting/university/' . $uni->logo) }}" alt="{{ $uni->university_name }}">
+                <span>{{ $uni->university_name }}</span>
+            </a>
+            @endforeach
+        </div>
+
+        <div class="uv-view-more">
+            <a href="{{ route('universities') }}" class="sd-cta-btn primary" style="background: var(--brand); color: #fff;">
+                View All Universities
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+            </a>
         </div>
     </div>
+    @endif
 
-    <!-- Service Areas Section -->
-    <div class="service-areas ptb-100" style="background: #fff;">
-        <div class="container">
-            <div class="section-title text-center mb-5">
-                <h2 style="font-size: 38px; font-weight: 800;">Service Areas</h2>
-                <p style="color: #666; font-size: 16px;">We provide our services across multiple locations!</p>
+    {{-- ── CTA ── --}}
+    <div class="sd-cta-wrap" data-aos="fade-up" data-aos-duration="900">
+        <div class="sd-cta">
+            <div class="sd-cta-text">
+                <h2>Explore More Opportunities</h2>
+                <p>Discover our partner universities or book an appointment with our experts to start your journey today.</p>
             </div>
-
-            <div class="service-areas-container" style="display: flex; flex-wrap: wrap; gap: 25px; justify-content: center;">
-                @foreach($areas as $area)
-                    <div class="service-area-item" style="width: 300px; text-align: center; border: 1px solid #eee; border-radius: 16px; padding: 20px; background: #fafafa; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: transform 0.3s; cursor: pointer;">
-                        @if($area->image)
-                            <img src="{{ asset($area->image) }}"
-                                 alt="{{ $area->areaname }}"
-                                 style="width: 100%; height: 180px; object-fit: cover; border-radius: 12px;">
-                        @endif
-                        <h3 style="margin-top: 15px; font-size: 20px; font-weight: 700;">{{ $area->areaname }}</h3>
-                        <p style="font-size: 15px; color: #555; line-height: 1.6;">{{ $area->description }}</p>
-                    </div>
-                @endforeach
+            <div class="sd-cta-actions">
+                <a href="{{ route('appointment.index') }}" class="sd-cta-btn primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <rect x="3" y="4" width="18" height="18" rx="2" />
+                        <path d="M16 2v4M8 2v4M3 10h18" />
+                    </svg>
+                    Book Appointment
+                </a>
+                <a href="/universities" class="sd-cta-btn outline" style="background: rgba(255,255,255,0.1);">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M12 14l9-5-9-5-9 5 9 5z" />
+                        <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
+                        <path d="M12 14v7" />
+                    </svg>
+                    Partner Universities
+                </a>
             </div>
         </div>
     </div>
