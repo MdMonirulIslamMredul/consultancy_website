@@ -1,117 +1,565 @@
 @extends('frontend.layouts.app')
 @section('content')
-    <div class="main-content">
-        <div class="rs-breadcrumbs" style="background-image:url({{ asset('/setting/university/' . $university->banner) }})">
-            <div class="breadcrumbs-inner text-center">
-                <h1 class="page-title">Study in {{ $university->university_name }}</h1>
-                <ul>
-                    <li>
-                        <a class="active" href="/">Home</a>
-                    </li>
-                    <li>{{ $university->university_name }}</li>
-                </ul>
+
+<style>
+    /* ── Google Font ── */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    /* ── Variables ── */
+    :root {
+        --brand: #C72027;
+        --brand-dark: #A61B21;
+        --brand-light: #FDECEA;
+        --text-dark: #1A1A2E;
+        --text-mid: #4B5563;
+        --text-light: #9CA3AF;
+        --bg-light: #F8F9FB;
+        --white: #FFFFFF;
+        --radius-lg: 20px;
+        --radius-xl: 32px;
+        --shadow-sm: 0 4px 16px rgba(0, 0, 0, .07);
+        --shadow-md: 0 12px 36px rgba(0, 0, 0, .12);
+        --shadow-lg: 0 24px 60px rgba(0, 0, 0, .16);
+    }
+
+    .sv-wrap * {
+        font-family: 'Inter', sans-serif;
+        box-sizing: border-box;
+    }
+
+    /* ── Hero Banner ── */
+    .sv-hero {
+        position: relative;
+        min-height: 480px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--brand);
+        overflow: hidden;
+    }
+
+    .sv-hero.has-bg {
+        background-size: cover;
+        background-position: center;
+    }
+
+    .sv-hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(167, 15, 23, 0.19) 0%, rgba(26, 26, 46, .75) 100%);
+    }
+
+    /* Decorative circles */
+    .sv-hero::after {
+        content: '';
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, .08);
+        top: -200px;
+        right: -150px;
+        pointer-events: none;
+    }
+
+    .sv-hero-inner {
+        position: relative;
+        z-index: 2;
+        max-width: 860px;
+        margin: 0 auto;
+        padding: 90px 30px 80px;
+        text-align: center;
+        color: #fff;
+    }
+
+    .sv-hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: rgba(255, 255, 255, .15);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, .25);
+        border-radius: 50px;
+        padding: 6px 18px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: .6px;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, .9);
+        margin-bottom: 22px;
+    }
+
+    .sv-hero h1 {
+        font-size: clamp(32px, 5vw, 58px);
+        font-weight: 800;
+        margin: 0 0 18px;
+        line-height: 1.15;
+        letter-spacing: -.5px;
+    }
+
+    .sv-hero .crumbs {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        font-size: 13px;
+        flex-wrap: wrap;
+        opacity: .8;
+    }
+
+    .sv-hero .crumbs a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .sv-hero .crumbs a:hover {
+        text-decoration: underline;
+    }
+
+    .sv-hero .crumbs span {
+        color: rgba(255, 255, 255, .6);
+    }
+
+    /* ── Top Logo Floating Card ── */
+    .uv-logo-card-wrap {
+        margin-top: -60px;
+        position: relative;
+        z-index: 5;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 50px;
+    }
+    
+    .uv-logo-card {
+        background: var(--white);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        padding: 25px 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none !important;
+        border: 1px solid rgba(0,0,0,0.04);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .uv-logo-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .uv-logo-card img {
+        height: 80px;
+        object-fit: contain;
+        margin-bottom: 12px;
+    }
+
+    .uv-logo-card span {
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--brand);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* ── Content Sections ── */
+    .sv-body {
+        background: var(--bg-light);
+        padding: 0 0 60px;
+    }
+
+    .sv-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 30px;
+    }
+
+    .sv-section {
+        display: flex;
+        align-items: center;
+        gap: 70px;
+        margin-bottom: 90px;
+        background: var(--white);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-sm);
+        overflow: hidden;
+        border: 1px solid rgba(0, 0, 0, .05);
+    }
+
+    .sv-section.reverse {
+        flex-direction: row-reverse;
+    }
+
+    .sv-section-media {
+        flex: 0 0 46%;
+        position: relative;
+        min-height: 420px;
+        overflow: hidden;
+    }
+
+    .sv-section-media img {
+        width: 100%;
+        height: 100%;
+        min-height: 420px;
+        object-fit: cover;
+        display: block;
+        transition: transform .6s ease;
+    }
+
+    .sv-section-media:hover img {
+        transform: scale(1.04);
+    }
+
+    .sv-section-content {
+        flex: 1;
+        padding: 52px 52px 52px 0;
+    }
+
+    .sv-section.reverse .sv-section-content {
+        padding: 52px 0 52px 52px;
+    }
+
+    .sv-section-tag {
+        display: inline-block;
+        background: var(--brand-light);
+        color: var(--brand);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: .8px;
+        text-transform: uppercase;
+        padding: 5px 14px;
+        border-radius: 50px;
+        margin-bottom: 18px;
+    }
+
+    .sv-section-content h2 {
+        font-size: clamp(26px, 3vw, 38px);
+        font-weight: 800;
+        color: var(--text-dark);
+        margin: 0 0 20px;
+        line-height: 1.25;
+        letter-spacing: -.3px;
+        position: relative;
+        padding-bottom: 18px;
+    }
+
+    .sv-section-content h2::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 48px;
+        height: 4px;
+        background: var(--brand);
+        border-radius: 4px;
+    }
+
+    .sv-section-content .sv-text {
+        font-size: 16px;
+        line-height: 1.8;
+        color: var(--text-mid);
+        margin-top: 18px;
+    }
+
+    /* No image variant */
+    .sv-section.no-media .sv-section-content {
+        flex: 1;
+        padding: 52px;
+    }
+
+    /* Centered block variant */
+    .sv-section.centered .sv-section-content {
+        text-align: center;
+        padding: 52px;
+    }
+    
+    .sv-section.centered .sv-section-content h2::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .sv-section.centered .sv-section-media {
+        width: 100%;
+        min-height: auto;
+    }
+    
+    .sv-section.centered .sv-section-media img {
+        min-height: auto;
+        max-height: 400px;
+    }
+
+    /* ── Partner Universities Grid ── */
+    .uv-partners {
+        margin-top: 20px;
+        padding-bottom: 90px;
+    }
+
+    .uv-section-title {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    
+    .uv-section-title h2 {
+        font-size: clamp(28px, 3.5vw, 42px);
+        font-weight: 800;
+        color: var(--text-dark);
+        margin: 0;
+        letter-spacing: -.5px;
+    }
+
+    .uv-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 20px;
+    }
+
+    .uv-card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 30px 15px;
+        text-align: center;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+        border: 1px solid rgba(0,0,0,0.03);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 160px;
+    }
+
+    .uv-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+        border-color: rgba(0,0,0,0.08);
+    }
+
+    .uv-card img {
+        max-width: 100%;
+        max-height: 70px;
+        object-fit: contain;
+        margin-bottom: 12px;
+        transition: transform 0.3s ease;
+    }
+
+    .uv-card:hover img {
+        transform: scale(1.05);
+    }
+
+    .uv-card span {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-dark);
+        display: block;
+    }
+
+    /* ── CTA Section ── */
+    .sv-cta-wrap {
+        padding: 0 30px 80px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .sv-cta {
+        background: linear-gradient(135deg, var(--brand) 0%, var(--brand-dark) 100%);
+        border-radius: var(--radius-xl);
+        padding: 70px 70px;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 24px 64px -16px rgba(199, 32, 39, .5);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 40px;
+    }
+
+    .sv-cta::before {
+        content: '';
+        position: absolute;
+        width: 500px; height: 500px; border-radius: 50%;
+        background: rgba(255, 255, 255, .06); top: -200px; right: -100px;
+    }
+
+    .sv-cta::after {
+        content: '';
+        position: absolute;
+        width: 300px; height: 300px; border-radius: 50%;
+        background: rgba(255, 255, 255, .04); bottom: -120px; left: 60px;
+    }
+
+    .sv-cta-text { position: relative; z-index: 1; flex: 1; }
+    .sv-cta-text h2 { font-size: clamp(26px, 3vw, 40px); font-weight: 800; margin: 0 0 14px; letter-spacing: -.3px; }
+    .sv-cta-text p { font-size: 16px; opacity: .88; margin: 0; line-height: 1.65; max-width: 560px; }
+
+    .sv-cta-actions { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 14px; flex-shrink: 0; }
+    
+    .sv-cta-btn {
+        display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+        padding: 16px 36px; font-weight: 700; font-size: 15px; border-radius: 50px;
+        text-decoration: none; transition: all .3s ease; white-space: nowrap;
+    }
+
+    .sv-cta-btn.primary { background: #fff; color: var(--brand); box-shadow: 0 8px 28px rgba(0, 0, 0, .18); }
+    .sv-cta-btn.primary:hover { transform: translateY(-3px); box-shadow: 0 14px 36px rgba(0, 0, 0, .22); }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+        .sv-section { gap: 0; flex-direction: column; }
+        .sv-section.reverse { flex-direction: column; }
+        .sv-section-media { flex: none; width: 100%; min-height: 320px; }
+        .sv-section-media img { min-height: 320px; }
+        .sv-section-content, .sv-section.reverse .sv-section-content { padding: 40px 36px; }
+        .sv-cta { flex-direction: column; text-align: center; padding: 52px 40px; }
+        .sv-cta-text p { max-width: 100%; }
+        .sv-cta-actions { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+    }
+
+    @media (max-width: 640px) {
+        .sv-body { padding: 0 0 40px; }
+        .sv-section { margin-bottom: 40px; }
+        .sv-section-content, .sv-section.reverse .sv-section-content { padding: 30px 24px; }
+        .sv-cta { padding: 44px 28px; }
+        .sv-cta-actions { flex-direction: column; }
+        .sv-cta-btn { width: 100%; }
+        .uv-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+    }
+</style>
+
+<div class="sv-wrap">
+
+    {{-- ── Hero Banner ── --}}
+    <div class="sv-hero {{ optional($university)->banner ? 'has-bg' : '' }}"
+        @if(optional($university)->banner) style="background-image:url('{{ asset('/setting/university/' . $university->banner) }}')" @endif>
+        <div class="sv-hero-inner" data-aos="fade-up" data-aos-duration="800">
+            <div class="sv-hero-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                    <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+                </svg>
+                Partner University
+            </div>
+            <h1>Study at {{ $university->university_name }}</h1>
+            <div class="crumbs">
+                <a href="/">Home</a>
+                <span>›</span>
+                <a href="/universities">Universities</a>
+                <span>›</span>
+                <span>{{ $university->university_name }}</span>
             </div>
         </div>
-        <div class="mt-4 text-center" style="background-color:#f1f1f1;padding:10px;">
-            <a href="{{ $university->website }}">
-                <img class="main-logo" src="{{ asset('/setting/university/' . $university->logo) }}" alt=""
-                    style="height: 150px">
-                </br>
-                <small>{{ $university->university_name ?? null }}</small>
+    </div>
+
+    <div class="sv-body">
+        
+        {{-- Floating Logo --}}
+        @if($university->logo)
+        <div class="uv-logo-card-wrap" data-aos="fade-up" data-aos-duration="800">
+            <a href="{{ $university->website }}" class="uv-logo-card" target="_blank" title="Visit University Website">
+                <img src="{{ asset('/setting/university/' . $university->logo) }}" alt="{{ $university->university_name }} Logo">
+                <span>Visit Website</span>
             </a>
         </div>
-        <div class="rs-about mt-5 pb-90 md-pt-80 md-pb-80">
-            <div class="container">
-                <div class="row align-items-center pb-80">
-                    @if ($university->details1)
-                        <div class="col-lg-6 pr-40 md-pr-15 md-mb-50">
-                            <div class="sec-title4">
-                                <div class="mt-50">
-                                    {!! $university->details1 !!}
-                                </div>
+        @endif
 
-                            </div>
-                        </div>
-                    @endif
-                    <div class="col-lg-6">
-                        <div class="software-img">
-                            <img src="{{ asset('/setting/university/' . $university->image1) }}" alt="">
-                        </div>
-                    </div>
+        <div class="sv-container">
+
+            {{-- ── Section 1 ── --}}
+            @if($university->details1 || $university->image1)
+            <div class="sv-section {{ !$university->image1 ? 'no-media' : '' }}" data-aos="fade-up" data-aos-duration="800">
+                @if($university->image1)
+                <div class="sv-section-media">
+                    <img src="{{ asset('/setting/university/' . $university->image1) }}" alt="{{ $university->university_name }}">
                 </div>
-                @if ($university->details2)
-                    <div class="row align-items-center pb-80">
-                        <div class="col-lg-6">
-                            <div class="software-img">
-                                <img src="{{ asset('/setting/university/' . $university->image2) }}" alt="">
-                            </div>
-                        </div>
-                        <div class="col-lg-6 pr-40 md-pr-15 md-mb-50">
-                            <div class="sec-title4">
-                                <div class="mt-50">
-                                    {!! $university->details2 !!}
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
                 @endif
-                @if ($university->details3)
-                    <div class="row align-items-center">
-                        <div class="col-lg-12 pr-40 md-pr-15 md-mb-50 text-center">
-                            <div class="sec-title4">
-                                <div>
-                                    {!! $university->details3 !!}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12 pr-40 text-center">
-                            <div class="sec-title4">
-                                <div class="software-img">
-                                    <img src="{{ asset('/setting/university/' . $university->image3) }}" alt="">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                @if($university->details1)
+                <div class="sv-section-content {{ !$university->image1 ? '' : '' }}">
+                    <span class="sv-section-tag">Overview</span>
+                    <h2>About The University</h2>
+                    <div class="sv-text">{!! $university->details1 !!}</div>
+                </div>
                 @endif
             </div>
-        </div>
-        <div class="rs-partner pt-10 pb-30">
-            <div class="container">
-                <div class="text-center mb-4">
-                    <h3>Our Partner Universities</h3>
+            @endif
+
+            {{-- ── Section 2 ── --}}
+            @if($university->details2 || $university->image2)
+            <div class="sv-section reverse {{ !$university->image2 ? 'no-media' : '' }}" data-aos="fade-up" data-aos-duration="800">
+                @if($university->image2)
+                <div class="sv-section-media">
+                    <img src="{{ asset('/setting/university/' . $university->image2) }}" alt="Campus">
                 </div>
-                <div class="rs-carousel owl-carousel" data-loop="true" data-items="5" data-margin="30" data-autoplay="true"
-                    data-hoverpause="true" data-autoplay-timeout="5000" data-smart-speed="800" data-dots="false"
-                    data-nav="false" data-nav-speed="false" data-center-mode="false" data-mobile-device="2"
-                    data-mobile-device-nav="false" data-mobile-device-dots="false" data-ipad-device="3"
-                    data-ipad-device-nav="false" data-ipad-device-dots="false" data-ipad-device2="2"
-                    data-ipad-device-nav2="false" data-ipad-device-dots2="false" data-md-device="5"
-                    data-md-device-nav="false" data-md-device-dots="false">
-                    @foreach ($universities as $uni)
-                        <div class="card">
-                            <div class="partner-item">
-                                <div class="logo-img text-center">
-                                    <a href="/universities/{{ $uni->id }}">
-                                        <img class="hover-logo" src="{{ asset('/setting/university/' . $uni->logo) }}"
-                                            alt="" style="height: 150px">
-                                        <img class="main-logo" src="{{ asset('/setting/university/' . $uni->logo) }}"
-                                            alt="" style="height: 150px">
-                                        <small>{{ $uni->university_name ?? null }}</small>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                @endif
+                @if($university->details2)
+                <div class="sv-section-content">
+                    <span class="sv-section-tag">Academics</span>
+                    <h2>Why Study Here?</h2>
+                    <div class="sv-text">{!! $university->details2 !!}</div>
+                </div>
+                @endif
+            </div>
+            @endif
+
+            {{-- ── Section 3 (Centered variant since it had full width originally) ── --}}
+            @if($university->details3 || $university->image3)
+            <div class="sv-section centered {{ !$university->image3 ? 'no-media' : '' }}" data-aos="fade-up" data-aos-duration="800" style="flex-direction: column;">
+                @if($university->details3)
+                <div class="sv-section-content" style="padding-bottom: 0;">
+                    <span class="sv-section-tag">Campus Life</span>
+                    <h2>Additional Information</h2>
+                    <div class="sv-text">{!! $university->details3 !!}</div>
+                </div>
+                @endif
+                @if($university->image3)
+                <div class="sv-section-media" style="margin-top: 30px;">
+                    <img src="{{ asset('/setting/university/' . $university->image3) }}" alt="Additional Info" style="border-radius: var(--radius-xl); box-shadow: var(--shadow-sm);">
+                </div>
+                @endif
+            </div>
+            @endif
+
+            {{-- ── Other Partner Universities Section ── --}}
+            @if(isset($universities) && count($universities) > 0)
+            <div class="uv-partners" data-aos="fade-up" data-aos-duration="800">
+                <div class="uv-section-title">
+                    <h2>Other Partner Universities</h2>
+                </div>
+                
+                <div class="uv-grid">
+                    @foreach($universities as $uni)
+                        @if($loop->iteration <= 10)
+                        <a href="/universities/{{ $uni->id }}" class="uv-card">
+                            <img src="{{ asset('/setting/university/' . $uni->logo) }}" alt="{{ $uni->university_name }}">
+                            <span>{{ $uni->university_name ?? 'University' }}</span>
+                        </a>
+                        @endif
                     @endforeach
                 </div>
             </div>
+            @endif
+
         </div>
-        {{-- <div class="row mb-4">
-            <div class="col-md-12 text-center">
-                <div class="btn-part ">
-                    <a class="readon learn-more contact-us" href="{{ route('universities') }}"> View More</a>
-                </div>
-            </div>
-        </div> --}}
     </div>
+
+    {{-- ── CTA ── --}}
+    <div class="sv-cta-wrap" data-aos="fade-up" data-aos-duration="900">
+        <div class="sv-cta">
+            <div class="sv-cta-text">
+                <h2>Ready to Apply to {{ $university->university_name }}?</h2>
+                <p>Let our experts guide you through the admission process and help you secure your spot.</p>
+            </div>
+            <div class="sv-cta-actions">
+                <a href="{{ route('appointment.index') }}" class="sv-cta-btn primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <rect x="3" y="4" width="18" height="18" rx="2" />
+                        <path d="M16 2v4M8 2v4M3 10h18" />
+                    </svg>
+                    Book Appointment
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>
 @endsection
