@@ -53,19 +53,53 @@ class AboutController extends Controller
             $banner = time() . 'banner' . '.' . $request->banner_image->extension();
             $banner_image = $request->banner_image->move(public_path('setting/about'), $banner);
         } else {
-            $banner = null;
+            $banner = $about->banner_img ?? null;
         }
         if ($request->about_image) {
             $about_p = time() . 'about' . '.' . $request->about_image->extension();
             $about_image = $request->about_image->move(public_path('setting/about'), $about_p);
         } else {
-            $about_p = null;
+            $about_p = $about->about_image ?? null;
         }
         $about->banner_img = $banner;
         $about->title = $request->title;
         $about->description = $request->description;
         $about->short_description = $request->short_description;
         $about->about_image = $about_p;
+
+        // Our Strengths
+        if ($request->hasFile('strength_one_icon')) {
+            $s1 = time() . '_strength1.' . $request->file('strength_one_icon')->extension();
+            $request->file('strength_one_icon')->move(public_path('setting/about'), $s1);
+            $about->strength_one_icon = $s1;
+        }
+        $about->strength_one_title = $request->strength_one_title;
+        $about->strength_one_details = $request->strength_one_details;
+
+        if ($request->hasFile('strength_two_icon')) {
+            $s2 = time() . '_strength2.' . $request->file('strength_two_icon')->extension();
+            $request->file('strength_two_icon')->move(public_path('setting/about'), $s2);
+            $about->strength_two_icon = $s2;
+        }
+        $about->strength_two_title = $request->strength_two_title;
+        $about->strength_two_details = $request->strength_two_details;
+
+        if ($request->hasFile('strength_three_icon')) {
+            $s3 = time() . '_strength3.' . $request->file('strength_three_icon')->extension();
+            $request->file('strength_three_icon')->move(public_path('setting/about'), $s3);
+            $about->strength_three_icon = $s3;
+        }
+        $about->strength_three_title = $request->strength_three_title;
+        $about->strength_three_details = $request->strength_three_details;
+
+        if ($request->hasFile('strength_four_icon')) {
+            $s4 = time() . '_strength4.' . $request->file('strength_four_icon')->extension();
+            $request->file('strength_four_icon')->move(public_path('setting/about'), $s4);
+            $about->strength_four_icon = $s4;
+        }
+        $about->strength_four_title = $request->strength_four_title;
+        $about->strength_four_details = $request->strength_four_details;
+
         $about->save();
         return redirect()->back()->withFlashSuccess('About Created Successfully');
     }
@@ -97,6 +131,40 @@ class AboutController extends Controller
         $about->description = $request->description;
         $about->short_description = $request->short_description;
         $about->about_image = $about_p;
+
+        // Our Strengths
+        if ($request->hasFile('strength_one_icon')) {
+            $s1 = time() . '_strength1.' . $request->file('strength_one_icon')->extension();
+            $request->file('strength_one_icon')->move(public_path('setting/about'), $s1);
+            $about->strength_one_icon = $s1;
+        }
+        $about->strength_one_title = $request->strength_one_title;
+        $about->strength_one_details = $request->strength_one_details;
+
+        if ($request->hasFile('strength_two_icon')) {
+            $s2 = time() . '_strength2.' . $request->file('strength_two_icon')->extension();
+            $request->file('strength_two_icon')->move(public_path('setting/about'), $s2);
+            $about->strength_two_icon = $s2;
+        }
+        $about->strength_two_title = $request->strength_two_title;
+        $about->strength_two_details = $request->strength_two_details;
+
+        if ($request->hasFile('strength_three_icon')) {
+            $s3 = time() . '_strength3.' . $request->file('strength_three_icon')->extension();
+            $request->file('strength_three_icon')->move(public_path('setting/about'), $s3);
+            $about->strength_three_icon = $s3;
+        }
+        $about->strength_three_title = $request->strength_three_title;
+        $about->strength_three_details = $request->strength_three_details;
+
+        if ($request->hasFile('strength_four_icon')) {
+            $s4 = time() . '_strength4.' . $request->file('strength_four_icon')->extension();
+            $request->file('strength_four_icon')->move(public_path('setting/about'), $s4);
+            $about->strength_four_icon = $s4;
+        }
+        $about->strength_four_title = $request->strength_four_title;
+        $about->strength_four_details = $request->strength_four_details;
+
         $about->save();
         return redirect('/admin/about/settings')->withFlashSuccess('About Updated Successfully');
     }
