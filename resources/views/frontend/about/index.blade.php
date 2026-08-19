@@ -448,34 +448,49 @@
         </div>
     </div>
 
-    {{-- ── Features ── --}}
+    {{-- ── Features / Strengths ── --}}
     <div class="ab-section">
         <div class="ab-container">
             <div class="ab-sh" data-aos="fade-up" data-aos-duration="700">
                 <span class="ab-section-tag">Our Strengths</span>
                 <h2>What Sets Us Apart</h2>
             </div>
+            @php
+                $strengths = [
+                    [
+                        'icon' => $about && $about->strength_one_icon ? (file_exists(public_path('setting/about/' . $about->strength_one_icon)) ? asset('setting/about/' . $about->strength_one_icon) : asset('setting/brand/' . $about->strength_one_icon)) : asset('setting/brand/hybrid.png'),
+                        'title' => $about->strength_one_title ?? 'Reliable',
+                        'text' => $about->strength_one_details ?? 'Our service is fully customer-centric and focused on bringing the best results and a smile of satisfaction on your face.',
+                        'delay' => 0
+                    ],
+                    [
+                        'icon' => $about && $about->strength_two_icon ? (file_exists(public_path('setting/about/' . $about->strength_two_icon)) ? asset('setting/about/' . $about->strength_two_icon) : asset('setting/brand/' . $about->strength_two_icon)) : asset('setting/brand/best_price.jpg'),
+                        'title' => $about->strength_two_title ?? 'Affordable Price',
+                        'text' => $about->strength_two_details ?? 'Affordability and quality are always on top of our agenda, with customer convenience given top priority.',
+                        'delay' => 90
+                    ],
+                    [
+                        'icon' => $about && $about->strength_three_icon ? (file_exists(public_path('setting/about/' . $about->strength_three_icon)) ? asset('setting/about/' . $about->strength_three_icon) : asset('setting/brand/' . $about->strength_three_icon)) : asset('setting/brand/quality.png'),
+                        'title' => $about->strength_three_title ?? 'High Quality Service',
+                        'text' => $about->strength_three_details ?? 'Premium quality, industry-leading guidance to help students achieve their maximum potential.',
+                        'delay' => 180
+                    ],
+                    [
+                        'icon' => $about && $about->strength_four_icon ? (file_exists(public_path('setting/about/' . $about->strength_four_icon)) ? asset('setting/about/' . $about->strength_four_icon) : asset('setting/brand/' . $about->strength_four_icon)) : asset('setting/brand/eco.jpg'),
+                        'title' => $about->strength_four_title ?? 'Green Energy',
+                        'text' => $about->strength_four_details ?? 'We are committed to promoting sustainable and eco-friendly solutions for a better future.',
+                        'delay' => 270
+                    ]
+                ];
+            @endphp
             <div class="ab-features">
-                <div class="ab-feature-card" data-aos="fade-up" data-aos-delay="0" data-aos-duration="700">
-                    <img src="{{ asset('setting/brand/hybrid.png') }}" alt="Reliable" class="ab-feature-icon">
-                    <div class="ab-feature-title">Reliable</div>
-                    <p class="ab-feature-text">Our service is fully customer-centric and focused on bringing the best results and a smile of satisfaction on your face.</p>
+                @foreach($strengths as $item)
+                <div class="ab-feature-card" data-aos="fade-up" data-aos-delay="{{ $item['delay'] }}" data-aos-duration="700">
+                    <img src="{{ $item['icon'] }}" alt="{{ $item['title'] }}" class="ab-feature-icon">
+                    <div class="ab-feature-title">{{ $item['title'] }}</div>
+                    <p class="ab-feature-text">{{ $item['text'] }}</p>
                 </div>
-                <div class="ab-feature-card" data-aos="fade-up" data-aos-delay="90" data-aos-duration="700">
-                    <img src="{{ asset('setting/brand/best_price.jpg') }}" alt="Affordable Price" class="ab-feature-icon">
-                    <div class="ab-feature-title">Affordable Price</div>
-                    <p class="ab-feature-text">Affordability and quality are always on top of our agenda, with customer convenience given top priority.</p>
-                </div>
-                <div class="ab-feature-card" data-aos="fade-up" data-aos-delay="180" data-aos-duration="700">
-                    <img src="{{ asset('setting/brand/quality.png') }}" alt="High Quality Service" class="ab-feature-icon">
-                    <div class="ab-feature-title">High Quality Service</div>
-                    <p class="ab-feature-text">Premium quality, industry-leading guidance to help students achieve their maximum potential.</p>
-                </div>
-                <div class="ab-feature-card" data-aos="fade-up" data-aos-delay="270" data-aos-duration="700">
-                    <img src="{{ asset('setting/brand/eco.jpg') }}" alt="Global Reach" class="ab-feature-icon">
-                    <div class="ab-feature-title">Green Energy</div>
-                    <p class="ab-feature-text">We are committed to promoting sustainable and eco-friendly solutions for a better future.</p>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
