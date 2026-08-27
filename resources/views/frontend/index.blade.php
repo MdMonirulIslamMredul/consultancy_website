@@ -400,31 +400,39 @@ $sliders = DB::table('sliders')
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right" data-aos-duration="1000">
-                <img src="{{ asset('setting/homepage/about.png') }}" alt="About IEC" style="width: 100%; max-height: 500px; border-radius: 20px; object-fit: cover; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                <img src="{{ isset($about) && $about->about_image ? asset('setting/about/' . $about->about_image) : asset('setting/homepage/about.png') }}" alt="About IEC" style="width: 100%; max-height: 500px; border-radius: 20px; object-fit: cover; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
             </div>
             <div class="col-lg-6 pl-lg-5" data-aos="fade-left" data-aos-duration="1000">
                 <span style="display:inline-block;background:#FDECEA;color:#C72027;font-size:12px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;padding:5px 16px;border-radius:50px;margin-bottom:14px;">Who We Are</span>
                 <h2 style="font-size: 40px; font-weight: 800; margin-bottom: 25px; color: #1A1A2E; line-height: 1.2; letter-spacing:-.5px;">
-                    ESTABLISHING <span style="color: #C72027;">YOUR</span> <br>
-                    <span style="color: #C72027;">PATHWAY</span> TO SUCCESS
+                    {!! $about->title ?? 'ESTABLISHING <span style="color: #C72027;">YOUR</span> <br><span style="color: #C72027;">PATHWAY</span> TO SUCCESS' !!}
                 </h2>
                 <p style="font-size: 16px; color: #4B5563; line-height: 1.75; margin-bottom: 40px;">
-                    Imperial Education &amp; Career (IEC), based in Dhaka, Bangladesh, is a leading firm dedicated to guiding students through the university application process. Partnered with top institutions across Australia, the USA, Canada, the UK, and more, IEC offers personalized and efficient support for undergraduate and graduate studies.
+                    {{ $about->short_description ?? 'Imperial Education & Career (IEC), based in Dhaka, Bangladesh, is a leading firm dedicated to guiding students through the university application process. Partnered with top institutions across Australia, the USA, Canada, the UK, and more, IEC offers personalized and efficient support for undergraduate and graduate studies.' }}
                 </p>
 
                 <div class="row mb-5 text-center text-md-left">
-                    <div class="col-4">
-                        <h3 style="font-size: 36px; font-weight: 800; color: #C72027; margin-bottom: 5px;">9+</h3>
-                        <p style="font-size: 13px; color: #9CA3AF; margin: 0; text-transform: uppercase; letter-spacing: 1px;">Countries</p>
-                    </div>
-                    <div class="col-4">
-                        <h3 style="font-size: 36px; font-weight: 800; color: #C72027; margin-bottom: 5px;">10,000+</h3>
-                        <p style="font-size: 13px; color: #9CA3AF; margin: 0; text-transform: uppercase; letter-spacing: 1px;">Students</p>
-                    </div>
-                    <div class="col-4">
-                        <h3 style="font-size: 36px; font-weight: 800; color: #C72027; margin-bottom: 5px;">26+</h3>
-                        <p style="font-size: 13px; color: #9CA3AF; margin: 0; text-transform: uppercase; letter-spacing: 1px;">Year Experience</p>
-                    </div>
+                    @if(isset($top_counters) && count($top_counters) > 0)
+                        @foreach ($top_counters as $counter)
+                            <div class="col-4">
+                                <h3 style="font-size: 36px; font-weight: 800; color: #C72027; margin-bottom: 5px;">{{ $counter->count_number }}</h3>
+                                <p style="font-size: 13px; color: #9CA3AF; margin: 0; text-transform: uppercase; letter-spacing: 1px;">{{ $counter->title }}</p>
+                            </div>
+                        @endforeach
+                    @else
+                        <div class="col-4">
+                            <h3 style="font-size: 36px; font-weight: 800; color: #C72027; margin-bottom: 5px;">9+</h3>
+                            <p style="font-size: 13px; color: #9CA3AF; margin: 0; text-transform: uppercase; letter-spacing: 1px;">Countries</p>
+                        </div>
+                        <div class="col-4">
+                            <h3 style="font-size: 36px; font-weight: 800; color: #C72027; margin-bottom: 5px;">10,000+</h3>
+                            <p style="font-size: 13px; color: #9CA3AF; margin: 0; text-transform: uppercase; letter-spacing: 1px;">Students</p>
+                        </div>
+                        <div class="col-4">
+                            <h3 style="font-size: 36px; font-weight: 800; color: #C72027; margin-bottom: 5px;">26+</h3>
+                            <p style="font-size: 13px; color: #9CA3AF; margin: 0; text-transform: uppercase; letter-spacing: 1px;">Year Experience</p>
+                        </div>
+                    @endif
                 </div>
 
                 <a href="{{ route('about.index') }}" style="display: inline-flex; align-items: center; gap:8px; padding: 13px 32px; background:#C72027; border-radius: 50px; color: #fff; font-size: 14px; font-weight: 700; text-decoration: none; text-transform: uppercase; letter-spacing: 1px; box-shadow:0 6px 20px rgba(199,32,39,.32); transition: all 0.3s ease;" onmouseover="this.style.background='#A61B21'; this.style.transform='translateY(-2px)';" onmouseout="this.style.background='#C72027'; this.style.transform='none';">
@@ -660,8 +668,8 @@ $sliders = DB::table('sliders')
     <div class="container">
         <!-- Header Row -->
         <div class="svc-header">
-            <h2>OUR SERVICES</h2>
-            <a href="#" class="svc-view-btn">VIEW SERVICES</a>
+            <h2>{{ get_setting('svc_section_title', 'OUR SERVICES') }}</h2>
+            <a href="{{ get_setting('svc_section_btn_link', '#') }}" class="svc-view-btn">{{ get_setting('svc_section_btn_text', 'VIEW SERVICES') }}</a>
         </div>
 
         <!-- Content Row -->
@@ -669,44 +677,63 @@ $sliders = DB::table('sliders')
             <!-- Left: 2x2 Service Cards -->
             <div class="col-lg-7 mb-5 mb-lg-0 pb-5">
                 <div class="row h-100">
-                    <!-- Card 1 -->
-                    <div class="col-md-6 mb-4 d-flex" data-aos="fade-up" data-aos-duration="800">
-                        <div class="svc-card w-100">
-                            <i class="fa-regular fa-lightbulb svc-card-icon"></i>
-                            <h4 class="svc-card-title">INTERACTIVE STUDENT CONSULTATION</h4>
-                            <p class="svc-card-desc">Through personalized consultations, we help students secure placement at their ideal institution based on academic credentials.</p>
+                    @if(isset($svc_items) && count($svc_items) > 0)
+                        @foreach ($svc_items as $index => $item)
+                            @php
+                                $delay = (($index % 4) * 100);
+                            @endphp
+                            <div class="col-md-6 mb-4 d-flex" data-aos="fade-up" data-aos-duration="800" data-aos-delay="{{ $delay }}">
+                                <div class="svc-card w-100">
+                                    <i class="{{ $item->icon ?: 'fa-regular fa-lightbulb' }} svc-card-icon"></i>
+                                    <h4 class="svc-card-title">{{ $item->title }}</h4>
+                                    <p class="svc-card-desc">{{ $item->description }}</p>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <!-- Card 1 -->
+                        <div class="col-md-6 mb-4 d-flex" data-aos="fade-up" data-aos-duration="800">
+                            <div class="svc-card w-100">
+                                <i class="fa-regular fa-lightbulb svc-card-icon"></i>
+                                <h4 class="svc-card-title">INTERACTIVE STUDENT CONSULTATION</h4>
+                                <p class="svc-card-desc">Through personalized consultations, we help students secure placement at their ideal institution based on academic credentials.</p>
+                            </div>
                         </div>
-                    </div>
-                    <!-- Card 2 -->
-                    <div class="col-md-6 mb-4 d-flex" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
-                        <div class="svc-card w-100">
-                            <i class="fa-solid fa-passport svc-card-icon"></i>
-                            <h4 class="svc-card-title">VISA APPLICATION HANDLING</h4>
-                            <p class="svc-card-desc">We provide complete visa application guidelines and support once offer letters are awarded to students.</p>
+                        <!-- Card 2 -->
+                        <div class="col-md-6 mb-4 d-flex" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+                            <div class="svc-card w-100">
+                                <i class="fa-solid fa-passport svc-card-icon"></i>
+                                <h4 class="svc-card-title">VISA APPLICATION HANDLING</h4>
+                                <p class="svc-card-desc">We provide complete visa application guidelines and support once offer letters are awarded to students.</p>
+                            </div>
                         </div>
-                    </div>
-                    <!-- Card 3 -->
-                    <div class="col-md-6 d-flex" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
-                        <div class="svc-card w-100">
-                            <i class="fa-solid fa-file-circle-check svc-card-icon"></i>
-                            <h4 class="svc-card-title">POST-APPROVAL COUNSELING SUPPORT</h4>
-                            <p class="svc-card-desc">After visa approval, we guide students on arrival procedures, travel plans, and accommodation arrangements.</p>
+                        <!-- Card 3 -->
+                        <div class="col-md-6 d-flex" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                            <div class="svc-card w-100">
+                                <i class="fa-solid fa-file-circle-check svc-card-icon"></i>
+                                <h4 class="svc-card-title">POST-APPROVAL COUNSELING SUPPORT</h4>
+                                <p class="svc-card-desc">After visa approval, we guide students on arrival procedures, travel plans, and accommodation arrangements.</p>
+                            </div>
                         </div>
-                    </div>
-                    <!-- Card 4 -->
-                    <div class="col-md-6 d-flex" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
-                        <div class="svc-card w-100">
-                            <i class="fa-solid fa-graduation-cap svc-card-icon"></i>
-                            <h4 class="svc-card-title">PROMOTING EDUCATION OPPORTUNITIES</h4>
-                            <p class="svc-card-desc">We host seminars with foreign institutions in Bangladesh and arrange direct student interviews.</p>
+                        <!-- Card 4 -->
+                        <div class="col-md-6 d-flex" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
+                            <div class="svc-card w-100">
+                                <i class="fa-solid fa-graduation-cap svc-card-icon"></i>
+                                <h4 class="svc-card-title">PROMOTING EDUCATION OPPORTUNITIES</h4>
+                                <p class="svc-card-desc">We host seminars with foreign institutions in Bangladesh and arrange direct student interviews.</p>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
 
             <!-- Right: Full-height Photo -->
             <div class="col-lg-5 svc-image-col" data-aos="fade-left" data-aos-duration="1000">
-                <img src="https://shecbd.com/wp-content/uploads/2024/11/business-partners-discussing-work-laptop-tablet.webp" alt="Our consultation team">
+                @if(get_setting('svc_section_image'))
+                    <img src="{{ asset('setting/banner/' . get_setting('svc_section_image')) }}" alt="Our consultation team">
+                @else
+                    <img src="https://shecbd.com/wp-content/uploads/2024/11/business-partners-discussing-work-laptop-tablet.webp" alt="Our consultation team">
+                @endif
             </div>
         </div>
     </div>
@@ -810,130 +837,177 @@ $sliders = DB::table('sliders')
 
 <div class="steps-section">
     <div class="container-fluid" style="max-width:1300px;">
-        <h2 class="section-heading text-center">EASY STEPS TO <span>APPLY</span></h2>
+        <h2 class="section-heading text-center">{!! get_setting('steps_section_heading', 'EASY STEPS TO <span>APPLY</span>') !!}</h2>
+
+        @php
+            $row1_steps = isset($steps) ? $steps->where('row_position', 1)->sortBy('order') : collect();
+            $row2_steps = isset($steps) ? $steps->where('row_position', 2)->sortByDesc('order') : collect();
+        @endphp
 
         <!-- ROW 1 — Steps 01–05 (icon top, card below) -->
         <div class="row no-gutters justify-content-center align-items-end mb-4">
+            @if($row1_steps->count() > 0)
+                @foreach ($row1_steps as $step)
+                    @php
+                        $delay = ($loop->index * 80);
+                        $bgGrad = $step->color_gradient ?: 'linear-gradient(135deg,#e07a5f,#f4a261)';
+                    @endphp
+                    <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700" @if($delay > 0) data-aos-delay="{{ $delay }}" @endif>
+                        <div class="step-icon-wrap mb-3" style="background: {{ $bgGrad }};">
+                            <i class="{{ $step->icon ?: 'fa-regular fa-file-lines' }}"></i>
+                        </div>
+                        <div class="step-card">
+                            <p class="step-title">{{ $step->title }}</p>
+                            <div class="step-num">{{ $step->step_num }}</div>
+                        </div>
+                    </div>
 
-            <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700">
-                <div class="step-icon-wrap mb-3" style="background:linear-gradient(135deg,#e07a5f,#f4a261);">
-                    <i class="fa-regular fa-file-lines"></i>
+                    @if(!$loop->last)
+                        <div class="col-auto step-arrow arrow-right mb-2"><i class="fa-solid fa-caret-right"></i></div>
+                    @endif
+                @endforeach
+            @else
+                <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700">
+                    <div class="step-icon-wrap mb-3" style="background:linear-gradient(135deg,#e07a5f,#f4a261);">
+                        <i class="fa-regular fa-file-lines"></i>
+                    </div>
+                    <div class="step-card">
+                        <p class="step-title">SELECT A COURSE</p>
+                        <div class="step-num">01</div>
+                    </div>
                 </div>
-                <div class="step-card">
-                    <p class="step-title">SELECT A COURSE</p>
-                    <div class="step-num">01</div>
-                </div>
-            </div>
 
-            <div class="col-auto step-arrow arrow-right mb-2"><i class="fa-solid fa-caret-right"></i></div>
+                <div class="col-auto step-arrow arrow-right mb-2"><i class="fa-solid fa-caret-right"></i></div>
 
-            <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700" data-aos-delay="80">
-                <div class="step-icon-wrap mb-3" style="background:linear-gradient(135deg,#6c757d,#adb5bd);">
-                    <i class="fa-solid fa-hand-pointer"></i>
+                <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700" data-aos-delay="80">
+                    <div class="step-icon-wrap mb-3" style="background:linear-gradient(135deg,#6c757d,#adb5bd);">
+                        <i class="fa-solid fa-hand-pointer"></i>
+                    </div>
+                    <div class="step-card">
+                        <p class="step-title">APPLY TO A UNIVERSITY</p>
+                        <div class="step-num">02</div>
+                    </div>
                 </div>
-                <div class="step-card">
-                    <p class="step-title">APPLY TO A UNIVERSITY</p>
-                    <div class="step-num">02</div>
-                </div>
-            </div>
 
-            <div class="col-auto step-arrow arrow-right mb-2"><i class="fa-solid fa-caret-right"></i></div>
+                <div class="col-auto step-arrow arrow-right mb-2"><i class="fa-solid fa-caret-right"></i></div>
 
-            <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700" data-aos-delay="160">
-                <div class="step-icon-wrap mb-3" style="background:linear-gradient(135deg,#e63946,#f4845f);">
-                    <i class="fa-regular fa-file-alt"></i>
+                <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700" data-aos-delay="160">
+                    <div class="step-icon-wrap mb-3" style="background:linear-gradient(135deg,#e63946,#f4845f);">
+                        <i class="fa-regular fa-file-alt"></i>
+                    </div>
+                    <div class="step-card">
+                        <p class="step-title">APPLY FOR SCHOLARSHIP</p>
+                        <div class="step-num">03</div>
+                    </div>
                 </div>
-                <div class="step-card">
-                    <p class="step-title">APPLY FOR SCHOLARSHIP</p>
-                    <div class="step-num">03</div>
-                </div>
-            </div>
 
-            <div class="col-auto step-arrow arrow-right mb-2"><i class="fa-solid fa-caret-right"></i></div>
+                <div class="col-auto step-arrow arrow-right mb-2"><i class="fa-solid fa-caret-right"></i></div>
 
-            <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700" data-aos-delay="240">
-                <div class="step-icon-wrap mb-3" style="background:linear-gradient(135deg,#9b2335,#c0392b);">
-                    <i class="fa-regular fa-envelope-open"></i>
+                <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700" data-aos-delay="240">
+                    <div class="step-icon-wrap mb-3" style="background:linear-gradient(135deg,#9b2335,#c0392b);">
+                        <i class="fa-regular fa-envelope-open"></i>
+                    </div>
+                    <div class="step-card">
+                        <p class="step-title">RECEIVE THE OFFER LETTER</p>
+                        <div class="step-num">04</div>
+                    </div>
                 </div>
-                <div class="step-card">
-                    <p class="step-title">RECEIVE THE OFFER LETTER</p>
-                    <div class="step-num">04</div>
-                </div>
-            </div>
 
-            <div class="col-auto step-arrow arrow-right mb-2"><i class="fa-solid fa-caret-right"></i></div>
+                <div class="col-auto step-arrow arrow-right mb-2"><i class="fa-solid fa-caret-right"></i></div>
 
-            <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700" data-aos-delay="320">
-                <div class="step-icon-wrap mb-3" style="background:linear-gradient(135deg,#165b65,#1e8a98);">
-                    <i class="fa-solid fa-receipt"></i>
+                <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700" data-aos-delay="320">
+                    <div class="step-icon-wrap mb-3" style="background:linear-gradient(135deg,#165b65,#1e8a98);">
+                        <i class="fa-solid fa-receipt"></i>
+                    </div>
+                    <div class="step-card">
+                        <p class="step-title">PAY TUITION FEE &amp; RECEIVE THE FEE RECEIPT</p>
+                        <div class="step-num">05</div>
+                    </div>
                 </div>
-                <div class="step-card">
-                    <p class="step-title">PAY TUITION FEE &amp; RECEIVE THE FEE RECEIPT</p>
-                    <div class="step-num">05</div>
-                </div>
-            </div>
+            @endif
         </div><!-- /row 1 -->
 
         <!-- ROW 2 — Steps 10–06 (card top, icon below), ordered right-to-left visually -->
         <div class="row no-gutters justify-content-center align-items-start">
+            @if($row2_steps->count() > 0)
+                @foreach ($row2_steps as $step)
+                    @php
+                        $delay = (($row2_steps->count() - $loop->index) * 80);
+                        $bgGrad = $step->color_gradient ?: 'linear-gradient(135deg,#165b65,#1e8a98)';
+                    @endphp
+                    <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700" data-aos-delay="{{ $delay }}">
+                        <div class="step-card mb-3">
+                            <div class="step-num">{{ $step->step_num }}</div>
+                            <p class="step-title">{{ $step->title }}</p>
+                        </div>
+                        <div class="step-icon-wrap" style="background: {{ $bgGrad }};">
+                            <i class="{{ $step->icon ?: 'fa-solid fa-stamp' }}"></i>
+                        </div>
+                    </div>
 
-            <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700" data-aos-delay="400">
-                <div class="step-card mb-3">
-                    <div class="step-num">10</div>
-                    <p class="step-title">VISA OUTCOME</p>
+                    @if(!$loop->last)
+                        <div class="col-auto step-arrow arrow-left mt-3"><i class="fa-solid fa-caret-left"></i></div>
+                    @endif
+                @endforeach
+            @else
+                <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700" data-aos-delay="400">
+                    <div class="step-card mb-3">
+                        <div class="step-num">10</div>
+                        <p class="step-title">VISA OUTCOME</p>
+                    </div>
+                    <div class="step-icon-wrap" style="background:linear-gradient(135deg,#165b65,#1e8a98);">
+                        <i class="fa-solid fa-stamp"></i>
+                    </div>
                 </div>
-                <div class="step-icon-wrap" style="background:linear-gradient(135deg,#165b65,#1e8a98);">
-                    <i class="fa-solid fa-stamp"></i>
-                </div>
-            </div>
 
-            <div class="col-auto step-arrow arrow-left mt-3"><i class="fa-solid fa-caret-left"></i></div>
+                <div class="col-auto step-arrow arrow-left mt-3"><i class="fa-solid fa-caret-left"></i></div>
 
-            <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700" data-aos-delay="320">
-                <div class="step-card mb-3">
-                    <div class="step-num">09</div>
-                    <p class="step-title">BIOMETRICS APPOINTMENT &amp; INTERVIEW</p>
+                <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700" data-aos-delay="320">
+                    <div class="step-card mb-3">
+                        <div class="step-num">09</div>
+                        <p class="step-title">BIOMETRICS APPOINTMENT &amp; INTERVIEW</p>
+                    </div>
+                    <div class="step-icon-wrap" style="background:linear-gradient(135deg,#e07a5f,#f4a261);">
+                        <i class="fa-solid fa-fingerprint"></i>
+                    </div>
                 </div>
-                <div class="step-icon-wrap" style="background:linear-gradient(135deg,#e07a5f,#f4a261);">
-                    <i class="fa-solid fa-fingerprint"></i>
-                </div>
-            </div>
 
-            <div class="col-auto step-arrow arrow-left mt-3"><i class="fa-solid fa-caret-left"></i></div>
+                <div class="col-auto step-arrow arrow-left mt-3"><i class="fa-solid fa-caret-left"></i></div>
 
-            <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700" data-aos-delay="240">
-                <div class="step-card mb-3">
-                    <div class="step-num">08</div>
-                    <p class="step-title">PREPARE FOR VISA FILING (SDS OR NON-SDS)</p>
+                <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700" data-aos-delay="240">
+                    <div class="step-card mb-3">
+                        <div class="step-num">08</div>
+                        <p class="step-title">PREPARE FOR VISA FILING (SDS OR NON-SDS)</p>
+                    </div>
+                    <div class="step-icon-wrap" style="background:linear-gradient(135deg,#8bc34a,#558b2f);">
+                        <i class="fa-regular fa-folder-open"></i>
+                    </div>
                 </div>
-                <div class="step-icon-wrap" style="background:linear-gradient(135deg,#8bc34a,#558b2f);">
-                    <i class="fa-regular fa-folder-open"></i>
-                </div>
-            </div>
 
-            <div class="col-auto step-arrow arrow-left mt-3"><i class="fa-solid fa-caret-left"></i></div>
+                <div class="col-auto step-arrow arrow-left mt-3"><i class="fa-solid fa-caret-left"></i></div>
 
-            <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700" data-aos-delay="160">
-                <div class="step-card mb-3">
-                    <div class="step-num">07</div>
-                    <p class="step-title">SCHEDULE IME (IMMIGRATION MEDICAL EXAMINATION)</p>
+                <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700" data-aos-delay="160">
+                    <div class="step-card mb-3">
+                        <div class="step-num">07</div>
+                        <p class="step-title">SCHEDULE IME (IMMIGRATION MEDICAL EXAMINATION)</p>
+                    </div>
+                    <div class="step-icon-wrap" style="background:linear-gradient(135deg,#7b2d8b,#ab47bc);">
+                        <i class="fa-solid fa-stethoscope"></i>
+                    </div>
                 </div>
-                <div class="step-icon-wrap" style="background:linear-gradient(135deg,#7b2d8b,#ab47bc);">
-                    <i class="fa-solid fa-stethoscope"></i>
-                </div>
-            </div>
 
-            <div class="col-auto step-arrow arrow-left mt-3"><i class="fa-solid fa-caret-left"></i></div>
+                <div class="col-auto step-arrow arrow-left mt-3"><i class="fa-solid fa-caret-left"></i></div>
 
-            <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700" data-aos-delay="80">
-                <div class="step-card mb-3">
-                    <div class="step-num">06</div>
-                    <p class="step-title">RECEIVE LOA (LETTER OF ACCEPTANCE)</p>
+                <div class="col text-center px-2" data-aos="fade-up" data-aos-duration="700" data-aos-delay="80">
+                    <div class="step-card mb-3">
+                        <div class="step-num">06</div>
+                        <p class="step-title">RECEIVE LOA (LETTER OF ACCEPTANCE)</p>
+                    </div>
+                    <div class="step-icon-wrap" style="background:linear-gradient(135deg,#165b65,#1e8a98);">
+                        <i class="fa-solid fa-hand-holding-heart"></i>
+                    </div>
                 </div>
-                <div class="step-icon-wrap" style="background:linear-gradient(135deg,#165b65,#1e8a98);">
-                    <i class="fa-solid fa-hand-holding-heart"></i>
-                </div>
-            </div>
+            @endif
         </div><!-- /row 2 -->
 
     </div>
@@ -1523,61 +1597,88 @@ $sliders = DB::table('sliders')
 <div class="modern-counter-section">
     <div class="container modern-counter-wrapper">
         <div class="row justify-content-center">
-            <!-- Projects Done -->
-            <div class="col-lg-3 col-md-6 col-sm-6" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="100">
-                <div class="modern-counter-card orange">
-                    <div class="modern-counter-icon">
-                        <img src="{{ asset('setting/banner/done.jpg') }}" alt="Projects Done">
+            @if(isset($bottom_counters) && count($bottom_counters) > 0)
+                @foreach ($bottom_counters as $index => $counter)
+                    @php
+                        $rawNumber = (int) preg_replace('/[^0-9]/', '', $counter->count_number) ?: 0;
+                        $suffix = preg_replace('/[0-9,\s]/', '', $counter->count_number);
+                        $delay = (($index % 4) + 1) * 100;
+                        $colorClass = $counter->color ?: 'orange';
+                    @endphp
+                    <div class="col-lg-3 col-md-6 col-sm-6" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="{{ $delay }}">
+                        <div class="modern-counter-card {{ $colorClass }}">
+                            @if ($counter->image)
+                                <div class="modern-counter-icon">
+                                    <img src="{{ asset('setting/banner/' . $counter->image) }}" alt="{{ $counter->title }}">
+                                </div>
+                            @endif
+                            <h3 class="modern-counter-title">{{ $counter->title }}</h3>
+                            <div>
+                                <span class="modern-counter-value" data-target="{{ $rawNumber }}">0</span>
+                                @if (!empty($suffix))
+                                    <span class="modern-counter-plus">{{ $suffix }}</span>
+                                @endif
+                            </div>
+                        </div>
                     </div>
-                    <h3 class="modern-counter-title">Projects Done</h3>
-                    <div>
-                        <span class="modern-counter-value" data-target="50">0</span>
-                        <span class="modern-counter-plus">+</span>
+                @endforeach
+            @else
+                <!-- Projects Done -->
+                <div class="col-lg-3 col-md-6 col-sm-6" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="100">
+                    <div class="modern-counter-card orange">
+                        <div class="modern-counter-icon">
+                            <img src="{{ asset('setting/banner/done.jpg') }}" alt="Projects Done">
+                        </div>
+                        <h3 class="modern-counter-title">Projects Done</h3>
+                        <div>
+                            <span class="modern-counter-value" data-target="50">0</span>
+                            <span class="modern-counter-plus">+</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Our Staff -->
-            <div class="col-lg-3 col-md-6 col-sm-6" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
-                <div class="modern-counter-card green">
-                    <div class="modern-counter-icon">
-                        <img src="{{ asset('setting/banner/staf.png') }}" alt="Our Staff">
-                    </div>
-                    <h3 class="modern-counter-title">Our Staff</h3>
-                    <div>
-                        <span class="modern-counter-value" data-target="16">0</span>
-                        <span class="modern-counter-plus">+</span>
+                <!-- Our Staff -->
+                <div class="col-lg-3 col-md-6 col-sm-6" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
+                    <div class="modern-counter-card green">
+                        <div class="modern-counter-icon">
+                            <img src="{{ asset('setting/banner/staf.png') }}" alt="Our Staff">
+                        </div>
+                        <h3 class="modern-counter-title">Our Staff</h3>
+                        <div>
+                            <span class="modern-counter-value" data-target="16">0</span>
+                            <span class="modern-counter-plus">+</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Trusted Clients -->
-            <div class="col-lg-3 col-md-6 col-sm-6" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="300">
-                <div class="modern-counter-card blue">
-                    <div class="modern-counter-icon">
-                        <img src="{{ asset('setting/banner/trust.jpg') }}" alt="Trusted Clients">
-                    </div>
-                    <h3 class="modern-counter-title">Trusted Clients</h3>
-                    <div>
-                        <span class="modern-counter-value" data-target="50">0</span>
-                        <span class="modern-counter-plus">+</span>
+                <!-- Trusted Clients -->
+                <div class="col-lg-3 col-md-6 col-sm-6" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="300">
+                    <div class="modern-counter-card blue">
+                        <div class="modern-counter-icon">
+                            <img src="{{ asset('setting/banner/trust.jpg') }}" alt="Trusted Clients">
+                        </div>
+                        <h3 class="modern-counter-title">Trusted Clients</h3>
+                        <div>
+                            <span class="modern-counter-value" data-target="50">0</span>
+                            <span class="modern-counter-plus">+</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Satisfied Clients -->
-            <div class="col-lg-3 col-md-6 col-sm-6" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="400">
-                <div class="modern-counter-card purple">
-                    <div class="modern-counter-icon">
-                        <img src="{{ asset('setting/banner/satisfied.jpg') }}" alt="Satisfied Clients">
-                    </div>
-                    <h3 class="modern-counter-title">Satisfied Clients</h3>
-                    <div>
-                        <span class="modern-counter-value" data-target="40">0</span>
-                        <span class="modern-counter-plus">+</span>
+                <!-- Satisfied Clients -->
+                <div class="col-lg-3 col-md-6 col-sm-6" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="400">
+                    <div class="modern-counter-card purple">
+                        <div class="modern-counter-icon">
+                            <img src="{{ asset('setting/banner/satisfied.jpg') }}" alt="Satisfied Clients">
+                        </div>
+                        <h3 class="modern-counter-title">Satisfied Clients</h3>
+                        <div>
+                            <span class="modern-counter-value" data-target="40">0</span>
+                            <span class="modern-counter-plus">+</span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
 </div>
@@ -1590,16 +1691,17 @@ $sliders = DB::table('sliders')
 
         const animateCounter = (counter) => {
             const target = +counter.getAttribute('data-target');
+            if (isNaN(target) || target <= 0) return;
             const increment = target / speed;
             let current = 0;
 
             const updateCounter = () => {
                 current += increment;
                 if (current < target) {
-                    counter.textContent = Math.ceil(current);
+                    counter.textContent = Math.ceil(current).toLocaleString();
                     requestAnimationFrame(updateCounter);
                 } else {
-                    counter.textContent = target;
+                    counter.textContent = target.toLocaleString();
                 }
             };
             updateCounter();

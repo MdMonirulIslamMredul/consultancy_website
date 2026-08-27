@@ -196,7 +196,8 @@
         transition: transform 0.2s;
     }
 
-    .adm-sb-link[aria-expanded="true"] .adm-sb-chevron {
+    .adm-sb-link[aria-expanded="true"] .adm-sb-chevron,
+    .adm-sb-nested-toggle[aria-expanded="true"] .adm-sb-chevron {
         transform: rotate(90deg);
         color: #cbd5e1;
     }
@@ -328,12 +329,49 @@
                     </svg>
                 </a>
                 <ul class="adm-sb-submenu collapse {{ $settingsOpen ? 'show' : '' }}" id="sbSettings">
+                    <li>
+                        <a href="{{ route('admin.setting.general') }}" class="adm-sb-sub-link {{ activeClass(Route::is('admin.setting.general'), 'is-active-sub') }}">General Settings</a>
+                    </li>
+
+                    {{-- About Settings Dropdown --}}
+                    @php
+                        $aboutSubOpen = Route::is('admin.about.*') || Route::is('admin.mission*');
+                    @endphp
+                    <li>
+                        <a href="#sbAboutSubmenu" data-toggle="collapse"
+                           aria-expanded="{{ $aboutSubOpen ? 'true' : 'false' }}"
+                           class="adm-sb-sub-link adm-sb-nested-toggle d-flex justify-content-between align-items-center {{ $aboutSubOpen ? 'is-active-sub' : '' }}"
+                           style="cursor: pointer;">
+                            <span>About Settings</span>
+                            <svg class="adm-sb-chevron" style="width: 12px; height: 12px;" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </a>
+                        <ul class="adm-sb-submenu collapse {{ $aboutSubOpen ? 'show' : '' }}" id="sbAboutSubmenu" style="margin-left: 0.6rem; border-left: 1px dashed rgba(255,255,255,0.15);">
+                            <li>
+                                <a href="{{ route('admin.about.settings') }}" class="adm-sb-sub-link {{ activeClass(Route::is('admin.about.settings*'), 'is-active-sub') }}">
+                                    About Info
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.mission') }}" class="adm-sb-sub-link {{ activeClass(Route::is('admin.mission*'), 'is-active-sub') }}">
+                                    Mission Settings
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.about.committee') }}" class="adm-sb-sub-link {{ activeClass(Route::is('admin.about.committee*'), 'is-active-sub') }}">
+                                    Member Settings
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
                     @foreach([
-                    ['admin.setting.general', 'General Settings'],
-                    ['admin.about.settings', 'About Settings'],
-                    ['admin.about.committee', 'Member Settings'],
                     ['admin.setting.slider', 'Slider Settings'],
+                    ['admin.setting.counter', 'Counter Settings'],
                     ['admin.setting.service', 'Service Settings'],
+                    ['admin.setting.svc_section', 'Home Service Cards'],
+                    ['admin.setting.step', 'Application Steps'],
                     // ['admin.setting.project', 'Project Settings'],
                     // ['admin.area', 'Add Service Area'],
                     //add destination settings
@@ -342,8 +380,7 @@
                     ['admin.setting.testmony', 'Testimony Settings'],
                     ['admin.setting.blog', 'Blog Settings'],
                     ['admin.setting.faq', 'FAQ Settings'],
-                    ['admin.mission', 'Mission Settings'],
-                    ['admin.setting.gallery', 'Gallery Settings'],
+                    // ['admin.setting.gallery', 'Gallery Settings'],
                     //['admin.setting.brand', 'Partnership Mgmt'],
                     ] as [$r, $l])
                     <li>

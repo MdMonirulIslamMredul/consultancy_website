@@ -30,6 +30,9 @@ use App\Models\Competition;
 use App\Models\CompetitionType;
 use App\Models\CompetitionYear;
 use App\Models\ServicArea;
+use App\Models\Counter;
+use App\Models\SvcSection;
+use App\Models\Step;
 use Mail;
 use App\Mail\ContactMail;
 use App\Mail\EventMail;
@@ -87,7 +90,12 @@ class HomeController
             ->orderBy('id', 'DESC')
             ->get();
 
-        return view('frontend.index', compact('faqs', 'university', 'about', 'galary', 'competition', 'competition_year', 'competition_type', 'product', 'sliders', 'event', 'brands', 'services', 'testmonies', 'blogs', 'projects', 'service_count', 'service_header', 'areas'));
+        $top_counters = Counter::where('is_active', 1)->where('type', 'top')->orderBy('order', 'asc')->get();
+        $bottom_counters = Counter::where('is_active', 1)->where('type', 'bottom')->orderBy('order', 'asc')->get();
+        $svc_items = SvcSection::where('is_active', 1)->orderBy('order', 'asc')->get();
+        $steps = Step::where('is_active', 1)->orderBy('order', 'asc')->get();
+
+        return view('frontend.index', compact('faqs', 'university', 'about', 'galary', 'competition', 'competition_year', 'competition_type', 'product', 'sliders', 'event', 'brands', 'services', 'testmonies', 'blogs', 'projects', 'service_count', 'service_header', 'areas', 'top_counters', 'bottom_counters', 'svc_items', 'steps'));
     }
      public function servicedetails()
     {
