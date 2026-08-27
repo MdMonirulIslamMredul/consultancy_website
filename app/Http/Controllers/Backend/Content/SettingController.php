@@ -20,6 +20,9 @@ use App\Models\Project;
 use App\Models\Testmony;
 use App\Models\Faq;
 use App\Models\Gallery;
+use App\Models\Counter;
+use App\Models\SvcSection;
+use App\Models\Step;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
@@ -1343,7 +1346,190 @@ class SettingController extends Controller
     $sponsor = Sponsor::find($id);
     $sponsor->is_active = $request->is_active;
     $sponsor->save();
-    return back()->withFlashSuccess('Sponsor Updated Successfully');;
+    return back()->withFlashSuccess('Sponsor Updated Successfully');
   }
   // sponser end
+
+  // Counter CRUD methods
+  public function counter()
+  {
+    $counters = Counter::orderBy('type', 'asc')->orderBy('order', 'asc')->get();
+    return view('backend.content.settings.counter.index', compact('counters'));
+  }
+
+  public function counterstore(Request $request)
+  {
+    $imageName = null;
+    if ($request->hasFile('image')) {
+      $imageName = time() . '_counter.' . $request->file('image')->extension();
+      $request->file('image')->move(public_path('setting/banner'), $imageName);
+    }
+
+    $counter = new Counter();
+    $counter->title = $request->title;
+    $counter->count_number = $request->count_number;
+    $counter->image = $imageName;
+    $counter->type = $request->type ?? 'bottom';
+    $counter->color = $request->color ?? 'orange';
+    $counter->order = $request->order ?? 0;
+    $counter->is_active = $request->is_active ?? 1;
+    $counter->save();
+
+    return redirect()->back()->withFlashSuccess('Counter Created Successfully');
+  }
+
+  public function counteredit($id)
+  {
+    $counter = Counter::findOrFail($id);
+    return view('backend.content.settings.counter.edit', compact('counter'));
+  }
+
+  public function counterupdate(Request $request)
+  {
+    $counter = Counter::findOrFail($request->id);
+
+    if ($request->hasFile('image')) {
+      $imageName = time() . '_counter.' . $request->file('image')->extension();
+      $request->file('image')->move(public_path('setting/banner'), $imageName);
+      $counter->image = $imageName;
+    }
+
+    $counter->title = $request->title;
+    $counter->count_number = $request->count_number;
+    $counter->type = $request->type ?? 'bottom';
+    $counter->color = $request->color ?? 'orange';
+    $counter->order = $request->order ?? 0;
+    $counter->is_active = $request->is_active;
+    $counter->save();
+
+    return redirect('/admin/setting/counter')->withFlashSuccess('Counter Updated Successfully');
+  }
+
+  public function counterdestroy($id)
+  {
+    $counter = Counter::findOrFail($id);
+    $counter->delete();
+
+    return redirect()->back()->withFlashSuccess('Counter Deleted Successfully');
+  }
+
+  // Svc Section (Home Service Cards) Methods
+  public function svc_section()
+  {
+    $services = SvcSection::orderBy('order', 'asc')->get();
+    return view('backend.content.settings.svc_section.index', compact('services'));
+  }
+
+  public function svc_section_store(Request $request)
+  {
+    $service = new SvcSection();
+    $service->icon = $request->icon ?? 'fa-regular fa-lightbulb';
+    $service->title = $request->title;
+    $service->description = $request->description;
+    $service->order = $request->order ?? 0;
+    $service->is_active = $request->is_active ?? 1;
+    $service->save();
+
+    return redirect()->back()->withFlashSuccess('Service Card Created Successfully');
+  }
+
+  public function svc_section_edit($id)
+  {
+    $service = SvcSection::findOrFail($id);
+    return view('backend.content.settings.svc_section.edit', compact('service'));
+  }
+
+  public function svc_section_update(Request $request)
+  {
+    $service = SvcSection::findOrFail($request->id);
+    $service->icon = $request->icon ?? 'fa-regular fa-lightbulb';
+    $service->title = $request->title;
+    $service->description = $request->description;
+    $service->order = $request->order ?? 0;
+    $service->is_active = $request->is_active;
+    $service->save();
+
+    return redirect('/admin/setting/svc_section')->withFlashSuccess('Service Card Updated Successfully');
+  }
+
+  public function svc_section_destroy($id)
+  {
+    $service = SvcSection::findOrFail($id);
+    $service->delete();
+
+    return redirect()->back()->withFlashSuccess('Service Card Deleted Successfully');
+  }
+
+  public function svc_section_header(Request $request)
+  {
+    $data = $request->only(['svc_section_title', 'svc_section_btn_text', 'svc_section_btn_link']);
+
+    if ($request->hasFile('svc_section_image')) {
+      $data['svc_section_image'] = store_picture($request->file('svc_section_image'), 'setting/banner');
+    }
+
+    Setting::save_settings($data);
+
+    return redirect()->back()->withFlashSuccess('Service Section Settings Updated Successfully');
+  }
+
+  // Application Steps Methods
+  public function step()
+  {
+    $steps = Step::orderBy('order', 'asc')->get();
+    return view('backend.content.settings.step.index', compact('steps'));
+  }
+
+  public function stepstore(Request $request)
+  {
+    $step = new Step();
+    $step->step_num = $request->step_num;
+    $step->title = $request->title;
+    $step->icon = $request->icon ?? 'fa-regular fa-file-lines';
+    $step->color_gradient = $request->color_gradient ?? 'linear-gradient(135deg,#e07a5f,#f4a261)';
+    $step->row_position = $request->row_position ?? 1;
+    $step->order = $request->order ?? 0;
+    $step->is_active = $request->is_active ?? 1;
+    $step->save();
+
+    return redirect()->back()->withFlashSuccess('Application Step Created Successfully');
+  }
+
+  public function stepedit($id)
+  {
+    $step = Step::findOrFail($id);
+    return view('backend.content.settings.step.edit', compact('step'));
+  }
+
+  public function stepupdate(Request $request)
+  {
+    $step = Step::findOrFail($request->id);
+    $step->step_num = $request->step_num;
+    $step->title = $request->title;
+    $step->icon = $request->icon ?? 'fa-regular fa-file-lines';
+    $step->color_gradient = $request->color_gradient ?? 'linear-gradient(135deg,#e07a5f,#f4a261)';
+    $step->row_position = $request->row_position ?? 1;
+    $step->order = $request->order ?? 0;
+    $step->is_active = $request->is_active;
+    $step->save();
+
+    return redirect('/admin/setting/step')->withFlashSuccess('Application Step Updated Successfully');
+  }
+
+  public function stepdestroy($id)
+  {
+    $step = Step::findOrFail($id);
+    $step->delete();
+
+    return redirect()->back()->withFlashSuccess('Application Step Deleted Successfully');
+  }
+
+  public function stepheading(Request $request)
+  {
+    $data = $request->only(['steps_section_heading']);
+    Setting::save_settings($data);
+
+    return redirect()->back()->withFlashSuccess('Steps Heading Updated Successfully');
+  }
 }
+

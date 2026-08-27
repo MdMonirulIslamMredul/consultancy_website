@@ -8,7 +8,6 @@ use App\Http\Controllers\CompetitionController;
 use App\Http\Controllers\UniversityController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\Backend\Content\SettingController;
-use App\Http\Controllers\Backend\Content\AccountController;
 use App\Http\Controllers\Backend\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -106,6 +105,26 @@ Route::group(['prefix' => 'setting', 'as' => 'setting.'], function () {
     Route::post('info/update', [SettingController::class, 'infoupdate'])->name('info.update');
     Route::get('info/edit/{id}', [SettingController::class, 'infoedit']);
 
+    Route::get('counter', [SettingController::class, 'counter'])->name('counter');
+    Route::post('counter/store', [SettingController::class, 'counterstore'])->name('counter.store');
+    Route::post('counter/update', [SettingController::class, 'counterupdate'])->name('counter.update');
+    Route::get('counter/edit/{id}', [SettingController::class, 'counteredit'])->name('counter.edit');
+    Route::get('counter/delete/{id}', [SettingController::class, 'counterdestroy'])->name('counter.destroy');
+
+    Route::get('svc_section', [SettingController::class, 'svc_section'])->name('svc_section');
+    Route::post('svc_section/store', [SettingController::class, 'svc_section_store'])->name('svc_section.store');
+    Route::post('svc_section/update', [SettingController::class, 'svc_section_update'])->name('svc_section.update');
+    Route::get('svc_section/edit/{id}', [SettingController::class, 'svc_section_edit'])->name('svc_section.edit');
+    Route::get('svc_section/delete/{id}', [SettingController::class, 'svc_section_destroy'])->name('svc_section.destroy');
+    Route::post('svc_section/header', [SettingController::class, 'svc_section_header'])->name('svc_section.header');
+
+    Route::get('step', [SettingController::class, 'step'])->name('step');
+    Route::post('step/store', [SettingController::class, 'stepstore'])->name('step.store');
+    Route::post('step/update', [SettingController::class, 'stepupdate'])->name('step.update');
+    Route::get('step/edit/{id}', [SettingController::class, 'stepedit'])->name('step.edit');
+    Route::get('step/delete/{id}', [SettingController::class, 'stepdestroy'])->name('step.destroy');
+    Route::post('step/heading', [SettingController::class, 'stepheading'])->name('step.heading');
+
     Route::get('donate', [SettingController::class, 'donate'])->name('donate');
     Route::post('donate/store', [SettingController::class, 'donatestore'])->name('donate.store');
     Route::post('donate/update', [SettingController::class, 'donateupdate'])->name('donate.update');
@@ -178,13 +197,12 @@ Route::post('committee/update', [AboutController::class, 'tech_web_committee_upd
 
 // committee end
 
-Route::group(['prefix' => 'account', 'as' => 'account.'], function () {
-    Route::get('skybuy', [AccountController::class, 'skybuyIndex'])->name('skybuy');
-    Route::get('skybuytable', [AccountController::class, 'skybuyTable'])->name('skybuytable');
-
-    Route::get('skyone', [AccountController::class, 'skyoneIndex'])->name('skyone');
-    Route::get('skyonetable', [AccountController::class, 'skyoneTable'])->name('skyonetable');
-});
+// Route::group(['prefix' => 'account', 'as' => 'account.'], function () {
+//     Route::get('skybuy', [AccountController::class, 'skybuyIndex'])->name('skybuy');
+//     Route::get('skybuytable', [AccountController::class, 'skybuyTable'])->name('skybuytable');
+//     Route::get('skyone', [AccountController::class, 'skyoneIndex'])->name('skyone');
+//     Route::get('skyonetable', [AccountController::class, 'skyoneTable'])->name('skyonetable');
+// });
 
 
 Route::get('history', [HistoryController::class, 'tech_web_history'])->name('history.settings');
